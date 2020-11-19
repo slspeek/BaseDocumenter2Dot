@@ -5,6 +5,7 @@ python:
     - "3.7"
 before_install:
     - sudo apt-get -y install libreoffice
+    - ln -sf /usr/libreoffice6.4/program/python /tmp/python
 install:
     - pip install pytest
 script:
