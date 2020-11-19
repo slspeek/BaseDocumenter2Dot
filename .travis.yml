@@ -6,7 +6,7 @@ python:
 before_install:
     - sudo bash ci/linux.bash
 install:
-    - pip install pytest
+    - pip install pytest flake8
 script:
     - make info
     - make test

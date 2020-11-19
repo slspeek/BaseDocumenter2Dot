@@ -1,7 +1,6 @@
 import logging
 import subprocess
 import shlex
-import os
 
 from pytest import fixture
 
@@ -15,16 +14,14 @@ SOFFICE_CMD = '/opt/libreoffice6.4/program/soffice '\
               '--norestore --nologo --nodefault  --headless'\
               ' src/test/resources/testdb/BaseDocumenter.odb'
 
+
 @fixture
 def libreoffice():
     office_proc = subprocess.Popen(shlex.split(SOFFICE_CMD), shell=False)
     logger.debug("LibreOffice started")
     yield office_proc
     office_proc.terminate()
-    # os.system("pkill -9 soffice")
     logger.debug("LibreOffice killed")
-
-
 
 
 def test_connection(libreoffice):

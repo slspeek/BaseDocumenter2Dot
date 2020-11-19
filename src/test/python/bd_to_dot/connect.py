@@ -24,7 +24,8 @@ def wait_for_connection():
         try:
             # connect to the running office
             ctx = resolver.resolve(
-                "uno:socket,host=localhost,port=2002;urp;StarOffice.ComponentContext"
+                "uno:socket,host=localhost,port=2002;"
+                "urp;StarOffice.ComponentContext"
             )
             break
         except Exception:
