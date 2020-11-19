@@ -1,6 +1,6 @@
 
 .PHONY: test info
-python=/tmp/python
+python=/usr/libreoffice6.4/program/python
 
 info:
 	PYTHONPATH=./src/main/python $(python) -m site
