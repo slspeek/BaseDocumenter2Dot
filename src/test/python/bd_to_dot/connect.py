@@ -43,5 +43,5 @@ def desktop():
 
 
 def datasource():
-    ddctx = smgr.createInstance("com.sun.star.sdb.DatabaseContext")
-    return ddctx.getByName("BaseDocumenter")
+    d = desktop()
+    return d.CurrentComponent.CurrentController.DataSource

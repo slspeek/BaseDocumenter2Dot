@@ -27,5 +27,6 @@ def libreoffice():
 
 
 def test_connection(libreoffice):
-    from bd_to_dot.connect import datasource
+    from connect import datasource
+    logger.debug(dir(datasource()))
     assert datasource().Name.endswith("BaseDocumenter.odb")
