@@ -9,11 +9,11 @@ logger = logging.getLogger()
 logging.basicConfig()
 logger.setLevel(logging.DEBUG)
 
-PREFIX = os.getenv("OFFICE_PREFIX", default="/usr")
-SOFFICE_CMD = '{0}/libreoffice6.4/program/soffice '\
+
+SOFFICE_CMD = '/opt/libreoffice6.4/program/soffice '\
               '--accept="socket,host=localhost,port=2002;urp;" '\
               '--norestore --nologo --nodefault  --headless'\
-              ' src/test/resources/testdb/BaseDocumenter.odb'.format(PREFIX)
+              ' src/test/resources/testdb/BaseDocumenter.odb'
 
 @fixture
 def libreoffice():
