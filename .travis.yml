@@ -8,5 +8,4 @@ before_install:
 install:
     - pip install pytest flake8
 script:
-    - make info
-    - make test
+    - make all
