@@ -30,17 +30,18 @@ def wait_for_connection():
             break
         except Exception:
             i += 1
-            logger.debug("waiting on uno connection")
+            logger.debug("waiting on uno connection for %d seconds", i/10)
             time.sleep(0.1)
 
     return ctx.ServiceManager
 
 
-smgr = wait_for_connection()
+def smgr():
+    return wait_for_connection()
 
 
 def desktop():
-    return smgr.createInstance("com.sun.star.frame.Desktop")
+    return smgr().createInstance("com.sun.star.frame.Desktop")
 
 
 def datasource():

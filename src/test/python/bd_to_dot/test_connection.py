@@ -28,3 +28,11 @@ def test_connection(libreoffice):
     from connect import datasource
     logger.debug(dir(datasource()))
     assert datasource().Name.endswith("BaseDocumenter.odb")
+
+
+def test_load_objects(libreoffice):
+    from connect import datasource
+    connection = datasource().getConnection("sa", "")
+    from bd_to_dot import loadObjects
+    objs = loadObjects(connection)
+    assert len(objs) == 34
