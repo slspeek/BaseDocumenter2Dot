@@ -6,11 +6,13 @@ logger = logging.getLogger(__name__)
 logging.basicConfig()
 logger.setLevel(logging.DEBUG)
 
+# time out in seconds
+OFFICE_TIME_OUT = 10
+
 
 def wait_for_connection():
     import uno
 
-    #         time.sleep(3) # needed if no --headless
     localContext = uno.getComponentContext()
 
     # create the UnoUrlResolver
@@ -18,9 +20,8 @@ def wait_for_connection():
         "com.sun.star.bridge.UnoUrlResolver", localContext
     )
 
-    ctx = "Error"
     i = 0
-    while i < 50:
+    while i < OFFICE_TIME_OUT * 10:
         try:
             # connect to the running office
             ctx = resolver.resolve(
@@ -30,9 +31,11 @@ def wait_for_connection():
             break
         except Exception:
             i += 1
-            logger.debug("waiting on uno connection for %d seconds", i/10)
+            logger.debug("waiting on uno connection for %.0d seconds", i/10)
             time.sleep(0.1)
-
+    else:
+        raise Exception("Gave up waiting for libreoffice after {0} seconds"
+                        .format(OFFICE_TIME_OUT))
     return ctx.ServiceManager
 
 
