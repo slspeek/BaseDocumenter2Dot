@@ -6,6 +6,6 @@ python:
 before_install:
     - sudo bash ci/linux.bash
 install:
-    - pip install pytest flake8 pyflakes pycodestyle graphviz
+    - pip install pytest flake8 pyflakes pycodestyle autopep8 graphviz
 script:
     - make all
