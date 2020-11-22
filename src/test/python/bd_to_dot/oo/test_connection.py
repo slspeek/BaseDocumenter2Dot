@@ -33,6 +33,9 @@ def test_connection(libreoffice):
 def test_load_objects(libreoffice):
     from connect import datasource
     connection = datasource().getConnection("sa", "")
-    from bd_to_dot import loadObjects
+    from bd_to_dot.oo.db import loadObjects
     objs = loadObjects(connection)
     assert len(objs) == 34
+    import pickle
+    with open('src/test/resources/objects.pickle', 'wb') as file:
+        pickle.dump(objs, file)
