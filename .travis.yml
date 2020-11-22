@@ -4,6 +4,7 @@ language: python
 python:
     - "3.7"
 before_install:
+    - sudo apt-get -y install graphviz
     - sudo bash ci/linux.bash
 install:
     - pip install pytest flake8 pyflakes pycodestyle autopep8 graphviz

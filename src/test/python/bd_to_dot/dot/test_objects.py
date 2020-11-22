@@ -1,5 +1,6 @@
 import pickle
 from pytest import fixture
+from bd_to_dot.dot.renderer import verify_relationships
 
 
 @fixture
@@ -12,3 +13,7 @@ def objects():
 
 def test_load_objects(objects):
     assert 34 == len(objects)
+
+
+def test_verify_relationships(objects):
+    verify_relationships(objects)

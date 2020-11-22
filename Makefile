@@ -11,6 +11,8 @@ itest:
 unit:
 	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m pytest src/test/python/bd_to_dot/dot
 
+test: itest unit
+	
 format:
 	autopep8 -ri src
 

@@ -3,7 +3,8 @@ from bd_to_dot import Object
 from bd_to_dot.dot.renderer import render_object
 import unittest
 
-tablePlant = Object(1, 1, "Plant", "Plant", 0, 0, "2", "4|5", "{}")
+
+tablePlant = Object(1, 'Table', "Plant", "Plant", 0, 0, [2], [4, 5], "{}")
 
 
 class TestRendererOnTables(unittest.TestCase):
@@ -22,7 +23,7 @@ class TestRendererOnTables(unittest.TestCase):
         assert line.find("shape=cylinder") > 0
 
 
-viewPlant = Object(1, 2, "Plant", "Plant", 0, 0, "2", "4|5", "{}")
+viewPlant = Object(1, 'Query', "Plant", "Plant", 0, 0, "2", "[4,5]", "{}")
 
 
 class TestRendererOnViews(unittest.TestCase):

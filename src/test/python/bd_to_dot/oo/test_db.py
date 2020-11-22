@@ -3,6 +3,7 @@ import subprocess
 import shlex
 
 from pytest import fixture
+from bd_to_dot.oo.db import _int_list
 
 logger = logging.getLogger()
 logging.basicConfig()
@@ -39,3 +40,11 @@ def test_load_objects(libreoffice):
     import pickle
     with open('src/test/resources/objects.pickle', 'wb') as file:
         pickle.dump(objs, file)
+
+
+def test__int_list():
+    assert [1, 2, 3] == _int_list("1|2|3")
+
+
+def test__int_list_empty():
+    assert [] == _int_list("")
