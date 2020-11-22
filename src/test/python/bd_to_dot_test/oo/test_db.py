@@ -26,13 +26,13 @@ def libreoffice():
 
 
 def test_connection(libreoffice):
-    from connect import datasource
+    from bd_to_dot_test.oo.connect import datasource
     logger.debug(dir(datasource()))
     assert datasource().Name.endswith("BaseDocumenter.odb")
 
 
 def test_load_objects(libreoffice):
-    from connect import datasource
+    from bd_to_dot_test.oo.connect import datasource
     connection = datasource().getConnection("sa", "")
     from bd_to_dot.oo.db import loadObjects
     objs = loadObjects(connection)
