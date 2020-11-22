@@ -1,6 +1,7 @@
-# from graphviz import Digraph
+from bd_to_dot import TYPE
 
 typeToShape = {"Table": "cylinder",
+               "View": "hexagon",
                "Query": "ellipse",
                "Form": "rectangle"}
 
@@ -8,7 +9,7 @@ typeToShape = {"Table": "cylinder",
 def render_object(obj, graph):
     graph.node(str(obj.INDEX),
                label=obj.SHORTNAME,
-               shape=typeToShape[obj.TYPE])
+               shape=typeToShape[TYPE(obj)])
 
 
 def render_relation(startObj, endObj, graph):

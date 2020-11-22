@@ -1,6 +1,6 @@
 python=/tmp/python
 
-all: info format check itest unit 
+all: info format check itest unit
 
 info:
 	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m site

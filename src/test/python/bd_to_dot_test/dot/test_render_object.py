@@ -4,7 +4,7 @@ from bd_to_dot.dot.renderer import render_object
 import unittest
 
 
-tablePlant = Object(1, 'Table', "Plant", "Plant", 0, 0, [2], [4, 5], "{}")
+tablePlant = Object(1, 'Table', "Plant", "Plant", 0, 0, [2], [4, 5], {})
 
 
 class TestRendererOnTables(unittest.TestCase):
@@ -23,7 +23,8 @@ class TestRendererOnTables(unittest.TestCase):
         assert line.find("shape=cylinder") > 0
 
 
-viewPlant = Object(1, 'Query', "Plant", "Plant", 0, 0, "2", "[4,5]", "{}")
+viewPlant = Object(1, 'Table', "vwPlant", "vwPlant",
+                   0, 0, [2], [4, 5], {'TableIsView': True})
 
 
 class TestRendererOnViews(unittest.TestCase):
@@ -35,8 +36,8 @@ class TestRendererOnViews(unittest.TestCase):
 
     def test_displays_name(self):
         line = self.line
-        assert line.find("label=Plant") > 0
+        assert line.find("label=vwPlant") > 0
 
     def test_shape_for_view(self):
         line = self.line
-        assert line.find("shape=ellipse") > 0
+        assert line.find("shape=hexagon") > 0
