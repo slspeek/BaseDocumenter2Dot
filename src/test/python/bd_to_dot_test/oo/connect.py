@@ -7,7 +7,7 @@ logging.basicConfig()
 logger.setLevel(logging.DEBUG)
 
 # time out in seconds
-OFFICE_TIME_OUT = 10
+OFFICE_TIME_OUT = 20
 
 
 def wait_for_connection():
@@ -31,10 +31,11 @@ def wait_for_connection():
             break
         except Exception:
             i += 1
-            logger.debug("waiting on uno connection for %.0d seconds", i/10)
+            logger.debug(
+                "waiting on uno connection for %0.1f seconds", float(i)/10)
             time.sleep(0.1)
     else:
-        raise Exception("Gave up waiting for libreoffice after {0} seconds"
+        raise Exception("Gave up waiting for libreoffice after {} seconds"
                         .format(OFFICE_TIME_OUT))
     return ctx.ServiceManager
 

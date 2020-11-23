@@ -15,15 +15,13 @@ class TestRendererOnTables(unittest.TestCase):
         self.line = g.body[0]
 
     def test_displays_name(self):
-        line = self.line
-        assert line.find("label=Plant") > 0
+        assert self.line.find("label=Plant") > 0
 
     def test_shape_for_table(self):
-        line = self.line
-        assert line.find("shape=cylinder") > 0
+        assert self.line.find("shape=cylinder") > 0
 
 
-viewPlant = Object(1, 'Table', "vwPlant", "vwPlant",
+viewPlant = Object(1, 'View', "vwPlant", "vwPlant",
                    0, 0, [2], [4, 5], {'TableIsView': True})
 
 
@@ -35,9 +33,7 @@ class TestRendererOnViews(unittest.TestCase):
         self.line = g.body[0]
 
     def test_displays_name(self):
-        line = self.line
-        assert line.find("label=vwPlant") > 0
+        assert self.line.find("label=vwPlant") > 0
 
     def test_shape_for_view(self):
-        line = self.line
-        assert line.find("shape=hexagon") > 0
+        assert self.line.find("shape=hexagon") > 0

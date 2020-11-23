@@ -1,4 +1,3 @@
-from bd_to_dot import TYPE
 
 typeToShape = {"Table": "cylinder",
                "View": "hexagon",
@@ -9,7 +8,7 @@ typeToShape = {"Table": "cylinder",
 def render_object(obj, graph):
     graph.node(str(obj.INDEX),
                label=obj.SHORTNAME,
-               shape=typeToShape[TYPE(obj)])
+               shape=typeToShape[obj.TYPE])
 
 
 def render_relation(startObj, endObj, graph):

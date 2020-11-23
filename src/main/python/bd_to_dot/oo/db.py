@@ -1,4 +1,4 @@
-from bd_to_dot import Object
+from bd_to_dot import Object, TYPE
 import json
 
 
@@ -74,6 +74,7 @@ def loadObjects(connection):
                    _int_list(rs.getString(9)),
                    _int_list(rs.getString(10)),
                    properties)
+        o = o._replace(TYPE=TYPE(o))
         objs[o.INDEX] = o
 
     connection.close()
