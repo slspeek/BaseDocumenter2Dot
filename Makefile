@@ -6,10 +6,10 @@ info:
 	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m site
 
 itest:
-	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m pytest src/test/python/bd_to_dot_test/oo
+	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m pytest -v src/test/python/bd_to_dot_test/oo
 
 unit:
-	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m pytest src/test/python/bd_to_dot_test/dot
+	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m pytest -v src/test/python/bd_to_dot_test/dot
 
 test: itest unit
 

@@ -21,3 +21,6 @@ def verify_relationships(dictObjs):
         for u in o.USES:
             usedObj = dictObjs[u]
             assert key in usedObj.USEDBY
+        for u in o.USEDBY:
+            usedByObj = dictObjs[u]
+            assert key in usedByObj.USES
