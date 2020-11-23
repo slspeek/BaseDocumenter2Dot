@@ -1,16 +1,8 @@
-from collections import namedtuple
-
-Object = namedtuple('Object', ["INDEX", "TYPE", "NAME", "SHORTNAME",
-                               "PARENTTYPE", "PARENTINDEX", "USES", "USEDBY",
-                               "PROPERTIES"])
+from bd_to_dot.oo.db import loadObjects
+from bd_to_dot.dot.renderer import build_graph
 
 
-def TYPE(object):
-    if object.TYPE == 'Table':
-        if 'TableIsView' in object.PROPERTIES.keys() and\
-           object.PROPERTIES['TableIsView']:
-            return 'View'
-        else:
-            return object.TYPE
-    else:
-        return object.TYPE
+def graph(connection):
+    dictObjs = loadObjects(connection)
+    g = build_graph(dictObjs)
+    return g

@@ -3,7 +3,10 @@ import subprocess
 import shlex
 
 from pytest import fixture
-from bd_to_dot.oo.db import _int_list
+
+from bd_to_dot import graph
+from bd_to_dot.oo.db import _int_list, loadObjects
+from bd_to_dot_test.oo.connect import datasource
 
 logger = logging.getLogger()
 logging.basicConfig()
@@ -26,20 +29,24 @@ def libreoffice():
 
 
 def test_connection(libreoffice):
-    from bd_to_dot_test.oo.connect import datasource
     logger.debug(dir(datasource()))
     assert datasource().Name.endswith("BaseDocumenter.odb")
 
 
 def test_load_objects(libreoffice):
-    from bd_to_dot_test.oo.connect import datasource
     connection = datasource().getConnection("sa", "")
-    from bd_to_dot.oo.db import loadObjects
     objs = loadObjects(connection)
     assert len(objs) == 34
     import pickle
     with open('src/test/resources/objects.pickle', 'wb') as file:
         pickle.dump(objs, file)
+
+
+def test_view_graph(libreoffice):
+    ds = datasource()
+    conn = ds.getConnection("sa", "")
+    g = graph(conn)
+    g.save("src/test/resources/testdb.gv")
 
 
 def test__int_list():
