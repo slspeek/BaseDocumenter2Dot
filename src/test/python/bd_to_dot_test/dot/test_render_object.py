@@ -60,7 +60,7 @@ class TestParentObjects(unittest.TestCase):
         self.related = parent_relations(self.dictObjs)
 
     def test_one_realtion(self):
-        assert len(self.related) == 1
+        assert len(self.related) == 0
 
     def test_related(self):
-        assert (field, viewPlant) in self.related
+        assert (field, viewPlant) not in self.related

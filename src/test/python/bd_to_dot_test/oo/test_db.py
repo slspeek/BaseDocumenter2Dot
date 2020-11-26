@@ -1,6 +1,7 @@
 import logging
 import subprocess
 import shlex
+import os
 
 from pytest import fixture
 
@@ -47,6 +48,8 @@ def test_view_graph(libreoffice):
     conn = ds.getConnection("sa", "")
     g = graph(conn)
     g.save("src/test/resources/testdb.gv")
+    if os.getenv("BD_VIEW", 0):
+        g.view()
 
 
 def test__int_list():

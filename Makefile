@@ -1,15 +1,16 @@
 python=/tmp/python
+PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/
 
 all: info format check itest unit
 
 info:
-	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m site
+	PYTHONPATH=$(PYTHONPATH) $(python) -m site
 
 itest:
-	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m pytest -v src/test/python/bd_to_dot_test/oo
+	PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/test/python/bd_to_dot_test/oo
 
 unit:
-	PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/ $(python) -m pytest -v src/test/python/bd_to_dot_test/dot
+	PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/test/python/bd_to_dot_test/dot
 
 test: itest unit
 
@@ -20,3 +21,6 @@ check:
 	flake8 src
 	pyflakes src
 	pycodestyle src
+
+view:
+	BD_VIEW=1 PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/test/python/bd_to_dot_test/dot/test_objects.py::test_view

@@ -1,21 +1,23 @@
 from graphviz import Digraph
 
-typeToShape = {
-    "Table": "cylinder",
-    "View": "hexagon",
-    "Query": "ellipse",
-    "Form": "house",
-    "Report": "rectangle",
-    "Dialog": "trapezium",
-    "Module": "component",
-    "Toolbar": "tab",
-    "Field": "invhouse",
-    "SubForm": "pentagon",
-    "Grid": "Mdiamond",
-    "Control": "parallelogram",
-    "Event": "square",
-    "Procedure": "component",
-    "Toolbarcontrol": "Msquare"}
+TYPE_ATTRS = {
+    "Table": {"shape": "cylinder", "fillcolor": "#a7c3eb", "style": "filled"},
+    "View": {"shape": "hexagon"},
+    "Query": {"shape": "ellipse"},
+    "Form": {"shape": "house"},
+    "Report": {"shape": "rectangle"},
+    "Dialog": {"shape": "trapezium"},
+    "Module": {"shape": "component"},
+    "Toolbar": {"shape": "tab"},
+    "Field": {"shape": "invhouse"},
+    "SubForm": {"shape": "pentagon"},
+    "Grid": {"shape": "Mdiamond"},
+    "Control": {"shape": "parallelogram"},
+    "Event": {"shape": "square"},
+    "Procedure": {"shape": "component"},
+    "Toolbarcontrol": {"shape": "Msquare"}}
+
+EXCLUDED_TYPES = ["Control", "Database", "Field"]
 
 
 def build_graph(dictObjs):
@@ -36,12 +38,12 @@ def render_graph(dictObjs, graph):
 
 
 def render_object(obj, graph):
-    if obj.TYPE == "Database" or obj.TYPE == "Grid"\
+    if obj.TYPE in EXCLUDED_TYPES\
        or obj.SHORTNAME == "MainForm_Grid":
         return
     graph.node(str(obj.INDEX),
                label=obj.SHORTNAME,
-               shape=typeToShape[obj.TYPE])
+               _attributes=TYPE_ATTRS[obj.TYPE])
 
 
 def render_relation(startObj, endObj, graph):
@@ -63,9 +65,11 @@ def related_objects(dictObjs):
     res = []
     for idx in dictObjs:
         o = dictObjs[idx]
+        if o.TYPE in EXCLUDED_TYPES:
+            continue
         for u in o.USES:
             uO = dictObjs[u]
-            if uO.TYPE != "Grid":
+            if uO.TYPE not in EXCLUDED_TYPES:
                 res.append((o, uO))
     return res
 
@@ -73,6 +77,8 @@ def related_objects(dictObjs):
 def parent_relations(dictObjs):
     res = []
     for obj in dictObjs.values():
+        if obj.TYPE in EXCLUDED_TYPES:
+            continue
         pi = obj.PARENTINDEX
         if obj.PARENTTYPE != "Database":
             res.append((obj, dictObjs[pi]))
