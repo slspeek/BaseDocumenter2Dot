@@ -17,12 +17,15 @@ logger.setLevel(logging.DEBUG)
 SOFFICE_CMD = '/opt/libreoffice6.4/program/soffice '\
               '--accept="socket,host=localhost,port=2002;urp;" '\
               '--norestore --nologo --nodefault  --headless'\
-              ' src/test/resources/testdb/BaseDocumenter.odb'
+              ' {}'
+DEFAULT_TESTDB = 'src/test/resources/testdb/BaseDocumenter.odb'
 
 
 @fixture
 def libreoffice():
-    office_proc = subprocess.Popen(shlex.split(SOFFICE_CMD), shell=False)
+    testdb = os.getenv("BD_TESTDB", DEFAULT_TESTDB)
+    args = shlex.split(SOFFICE_CMD.format(testdb))
+    office_proc = subprocess.Popen(args, shell=False)
     logger.debug("LibreOffice started")
     yield office_proc
     office_proc.terminate()

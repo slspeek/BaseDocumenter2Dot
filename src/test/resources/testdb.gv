@@ -1,4 +1,4 @@
-digraph testdb {
+digraph "testdb.odb" {
 	2 [label=Family fillcolor="#a7c3eb" shape=cylinder style=filled]
 	6 [label=Plant fillcolor="#a7c3eb" shape=cylinder style=filled]
 	10 [label=view1 shape=hexagon]

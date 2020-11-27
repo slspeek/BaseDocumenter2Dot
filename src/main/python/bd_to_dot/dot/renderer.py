@@ -21,65 +21,76 @@ EXCLUDED_TYPES = ["Control", "Database", "Field"]
 
 
 def build_graph(dictObjs):
-    graph = Digraph("")
-    render_graph(dictObjs, graph)
+    gr = GraphRenderer(dictObjs, EXCLUDED_TYPES)
+    graph = gr.render_graph()
     return graph
 
 
-def render_graph(dictObjs, graph):
-    relations = related_objects(dictObjs)
-    parent_rel = parent_relations(dictObjs)
-    for obj in dictObjs.values():
-        render_object(obj, graph)
-    for (startObj, endObj) in relations:
-        render_relation(startObj, endObj, graph)
-    for (startObj, endObj) in parent_rel:
-        render_relation(startObj, endObj, graph)
+class GraphRenderer(object):
 
+    def __init__(self, dictObjs, excluded_types):
+        self.dictObjs = dictObjs
+        self._verify_relationships()
+        self.excluded_types = excluded_types
+        self.name = self._name()
+        self.objs = list(
+            filter(lambda x: x.TYPE not in excluded_types, dictObjs.values())
+        )
+        self.graph = Digraph(self.name)
 
-def render_object(obj, graph):
-    if obj.TYPE in EXCLUDED_TYPES\
-       or obj.SHORTNAME == "MainForm_Grid":
-        return
-    graph.node(str(obj.INDEX),
-               label=obj.SHORTNAME,
-               _attributes=TYPE_ATTRS[obj.TYPE])
+    def _name(self):
+        objs = self.dictObjs.values()
+        dbs = [o for o in objs if o.TYPE == "Database"]
+        if len(dbs) > 1:
+            raise ValueError("Too many Database objects in list")
+        if len(dbs) < 1:
+            raise ValueError("No Database objects in list")
+        return dbs[0].NAME
 
+    def _related_objs(self):
+        res = []
+        for o in self.objs:
+            for u in o.USES:
+                uO = self.dictObjs[u]
+                if uO in self.objs:
+                    res.append((o, uO))
+        return res
 
-def render_relation(startObj, endObj, graph):
-    graph.edge(str(startObj.INDEX), str(endObj.INDEX))
+    def _parent_relations(self):
+        res = []
+        for obj in self.objs:
+            pi = obj.PARENTINDEX
+            if pi in self.dictObjs.keys():
+                pObj = self.dictObjs[obj.PARENTINDEX]
+                if pObj in self.objs:
+                    res.append((obj, pObj))
+        return res
 
+    def _verify_relationships(self):
+        for key in self.dictObjs.keys():
+            o = self.dictObjs[key]
+            for u in o.USES:
+                usedObj = self.dictObjs[u]
+                assert key in usedObj.USEDBY
+            for u in o.USEDBY:
+                usedByObj = self.dictObjs[u]
+                assert key in usedByObj.USES
 
-def verify_relationships(dictObjs):
-    for key in dictObjs.keys():
-        o = dictObjs[key]
-        for u in o.USES:
-            usedObj = dictObjs[u]
-            assert key in usedObj.USEDBY
-        for u in o.USEDBY:
-            usedByObj = dictObjs[u]
-            assert key in usedByObj.USES
+    def _render_object(self, obj):
+        self.graph.node(str(obj.INDEX),
+                        label=obj.SHORTNAME,
+                        _attributes=TYPE_ATTRS[obj.TYPE])
 
+    def _render_relation(self, startObj, endObj):
+        self.graph.edge(str(startObj.INDEX), str(endObj.INDEX))
 
-def related_objects(dictObjs):
-    res = []
-    for idx in dictObjs:
-        o = dictObjs[idx]
-        if o.TYPE in EXCLUDED_TYPES:
-            continue
-        for u in o.USES:
-            uO = dictObjs[u]
-            if uO.TYPE not in EXCLUDED_TYPES:
-                res.append((o, uO))
-    return res
-
-
-def parent_relations(dictObjs):
-    res = []
-    for obj in dictObjs.values():
-        if obj.TYPE in EXCLUDED_TYPES:
-            continue
-        pi = obj.PARENTINDEX
-        if obj.PARENTTYPE != "Database":
-            res.append((obj, dictObjs[pi]))
-    return res
+    def render_graph(self):
+        relations = self._related_objs()
+        parent_rel = self._parent_relations()
+        for obj in self.objs:
+            self._render_object(obj)
+        for (startObj, endObj) in relations:
+            self._render_relation(startObj, endObj)
+        for (startObj, endObj) in parent_rel:
+            self._render_relation(startObj, endObj)
+        return self.graph
