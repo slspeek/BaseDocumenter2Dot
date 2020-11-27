@@ -103,7 +103,7 @@ class TestRendererOnTables(unittest.TestCase):
     def setUp(self):
         self.gr = GraphRenderer({0: database, 1: tablePlant, 2: viewPlant}, [])
         self.gr._render_object(tablePlant)
-        self.line = self.gr.graph.body[0]
+        self.line = self.gr.graph.body[len(self.gr.graph.body)-1]
 
     def test_displays_name(self):
         assert self.line.find("label=Plant") > 0
@@ -117,7 +117,7 @@ class TestRendererOnViews(unittest.TestCase):
     def setUp(self):
         self.gr = GraphRenderer({0: database, 1: tablePlant, 2: viewPlant}, [])
         self.gr._render_object(viewPlant)
-        self.line = self.gr.graph.body[0]
+        self.line = self.gr.graph.body[len(self.gr.graph.body)-1]
 
     def test_displays_name(self):
         assert self.line.find("label=vwPlant") > 0

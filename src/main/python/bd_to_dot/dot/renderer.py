@@ -27,7 +27,7 @@ RELATION_ATTR = {
     ("Query", "Query"): {"arrowhead": "dot"}
 }
 
-EXCLUDED_TYPES = ["Database", "Field", "Module"]
+EXCLUDED_TYPES = ["Control", "Database", "Field", "Module"]
 
 
 def build_graph(dictObjs):
