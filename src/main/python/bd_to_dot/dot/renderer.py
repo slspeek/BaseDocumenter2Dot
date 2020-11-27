@@ -12,7 +12,7 @@ TYPE_ATTRS = {
     "Field": {"shape": "invhouse"},
     "SubForm": {"shape": "pentagon"},
     "Grid": {"shape": "Mdiamond"},
-    "Control": {"shape": "parallelogram"},
+    "Control": {"shape": "octagon", "style": "filled", "fillcolor": "#d3d3d3"},
     "Event": {"shape": "square"},
     "Procedure": {"shape": "component"},
     "Toolbarcontrol": {"shape": "Msquare"}}
@@ -27,7 +27,7 @@ RELATION_ATTR = {
     ("Query", "Query"): {"arrowhead": "dot"}
 }
 
-EXCLUDED_TYPES = ["Control", "Database", "Field", "Module"]
+EXCLUDED_TYPES = ["Database", "Field", "Module"]
 
 
 def build_graph(dictObjs):
@@ -43,13 +43,28 @@ class GraphRenderer(object):
         self._verify_relationships()
         self.excluded_types = excluded_types
         self.name = self._name()
-        self.objs = list(
-            filter(lambda x: x.TYPE not in excluded_types, dictObjs.values())
-        )
+        self._filter_objs()
         self.graph = Digraph(self.name)
         self.graph.attr("graph", rankdir="LR")
         self.graph.attr("graph", label=self.name,
                         labelloc="top", fontsize="24")
+
+    def _filter_objs(self):
+        self.objs = list(
+            filter(lambda x: x.TYPE not in self.excluded_types,
+                   self.dictObjs.values())
+        )
+
+        def relevant_control_filter(obj):
+            if obj.TYPE != "Control":
+                return True
+            else:
+                return len(obj.USES) > 0
+
+        self.objs = list(
+            filter(relevant_control_filter,
+                   self.objs)
+        )
 
     def _name(self):
         objs = self.dictObjs.values()
@@ -90,8 +105,12 @@ class GraphRenderer(object):
                 assert key in usedByObj.USES
 
     def _render_object(self, obj):
+        if obj.TYPE == "Control" and "Caption" in obj.PROPERTIES:
+            label = obj.PROPERTIES["Caption"]
+        else:
+            label = obj.SHORTNAME
         self.graph.node(str(obj.INDEX),
-                        label=obj.SHORTNAME,
+                        label=label,
                         _attributes=TYPE_ATTRS[obj.TYPE])
 
     def _render_relation(self, startObj, endObj):
