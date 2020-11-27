@@ -40,10 +40,10 @@ def test_connection(libreoffice):
 def test_load_objects(libreoffice):
     connection = datasource().getConnection("sa", "")
     objs = loadObjects(connection)
-    assert len(objs) == 34
     import pickle
     with open('src/test/resources/objects.pickle', 'wb') as file:
         pickle.dump(objs, file)
+    assert len(objs) == 34
 
 
 def test_view_graph(libreoffice):

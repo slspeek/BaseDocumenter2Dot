@@ -4,7 +4,7 @@ TYPE_ATTRS = {
     "Table": {"shape": "cylinder", "fillcolor": "#a7c3eb", "style": "filled"},
     "View": {"shape": "hexagon"},
     "Query": {"shape": "ellipse"},
-    "Form": {"shape": "house"},
+    "Form": {"shape": "rect", "style": "filled", "fillcolor": "#ffcc99"},
     "Report": {"shape": "rectangle"},
     "Dialog": {"shape": "trapezium"},
     "Module": {"shape": "component"},
@@ -17,7 +17,17 @@ TYPE_ATTRS = {
     "Procedure": {"shape": "component"},
     "Toolbarcontrol": {"shape": "Msquare"}}
 
-EXCLUDED_TYPES = ["Control", "Database", "Field"]
+RELATION_ATTR = {
+    ("Table", "Table"): {},
+    ("Form", "Table"): {"arrowhead": "box", "color": "red"},
+    ("View", "Table"): {"arrowhead": "dot"},
+    ("Form", "View"): {"arrowhead": "dot"},
+    ("Form", "Query"): {"arrowhead": "dot"},
+    ("Query", "Table"): {"arrowhead": "dot"},
+    ("Query", "Query"): {"arrowhead": "dot"}
+}
+
+EXCLUDED_TYPES = ["Database", "Field", "Module"]
 
 
 def build_graph(dictObjs):
@@ -37,6 +47,9 @@ class GraphRenderer(object):
             filter(lambda x: x.TYPE not in excluded_types, dictObjs.values())
         )
         self.graph = Digraph(self.name)
+        self.graph.attr("graph", rankdir="LR")
+        self.graph.attr("graph", label=self.name,
+                        labelloc="top", fontsize="24")
 
     def _name(self):
         objs = self.dictObjs.values()
@@ -82,7 +95,13 @@ class GraphRenderer(object):
                         _attributes=TYPE_ATTRS[obj.TYPE])
 
     def _render_relation(self, startObj, endObj):
-        self.graph.edge(str(startObj.INDEX), str(endObj.INDEX))
+        types = (startObj.TYPE, endObj.TYPE)
+        attrs = {}
+        if types in RELATION_ATTR:
+            attrs = RELATION_ATTR[types]
+        self.graph.edge(str(startObj.INDEX),
+                        str(endObj.INDEX),
+                        _attributes=attrs)
 
     def render_graph(self):
         relations = self._related_objs()
