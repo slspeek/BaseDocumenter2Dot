@@ -5,7 +5,7 @@ import os
 
 from pytest import fixture
 
-from bd_to_dot import graph
+from bd_to_dot import graph, verify_queries
 from bd_to_dot.oo.db import _int_list, loadObjects
 from bd_to_dot_test.oo.connect import datasource
 
@@ -21,7 +21,7 @@ SOFFICE_CMD = '/opt/libreoffice6.4/program/soffice '\
 DEFAULT_TESTDB = 'src/test/resources/testdb/BaseDocumenter.odb'
 
 
-@fixture
+@fixture(scope="session")
 def libreoffice():
     testdb = os.getenv("BD_TESTDB", DEFAULT_TESTDB)
     args = shlex.split(SOFFICE_CMD.format(testdb))
@@ -30,6 +30,10 @@ def libreoffice():
     yield office_proc
     office_proc.terminate()
     logger.debug("LibreOffice killed")
+
+
+def test_verify_queries(libreoffice):
+    assert len(verify_queries(datasource())) == 0
 
 
 def test_connection(libreoffice):

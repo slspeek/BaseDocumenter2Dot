@@ -15,7 +15,8 @@ TYPE_ATTRS = {
     "Control": {"shape": "octagon", "style": "filled", "fillcolor": "#d3d3d3"},
     "Event": {"shape": "square"},
     "Procedure": {"shape": "component"},
-    "Toolbarcontrol": {"shape": "Msquare"}}
+    "Toolbarcontrol": {"shape": "Msquare"}
+}
 
 RELATION_ATTR = {
     ("Table", "Table"): {},

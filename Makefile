@@ -19,7 +19,6 @@ format:
 
 check:
 	flake8 src
-	pyflakes src
 	pycodestyle src
 
 view:
