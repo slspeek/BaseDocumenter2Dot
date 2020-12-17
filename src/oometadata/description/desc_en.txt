@@ -1,0 +1,3 @@
+Draws a graph from the data collected by the excellent BaseDocumenter extension
+by Jean-Pierre Ledure.
+Copyright (c) Steven L. Speek 2020.

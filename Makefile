@@ -25,4 +25,10 @@ view:
 	BD_VIEW=1 PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/test/python/bd_to_dot_test/dot/test_objects.py::test_view
 
 clean:
-	-find src -type d -name __pycache__ -exec rm -rfv '{}' \;
+	-find src -type d -name __pycache__ -exec rm -rf '{}' \;
+	-rm -rf build
+
+.ONESHELL:
+oxt:
+	cd ~
+	pwd
