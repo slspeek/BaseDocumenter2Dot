@@ -1,7 +1,7 @@
 python=/tmp/python
 PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/
 
-all: info format check itest unit
+all: info clean format check itest unit
 
 info:
 	PYTHONPATH=$(PYTHONPATH) $(python) -m site
@@ -23,3 +23,6 @@ check:
 
 view:
 	BD_VIEW=1 PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/test/python/bd_to_dot_test/dot/test_objects.py::test_view
+
+clean:
+	-find src -type d -name __pycache__ -exec rm -rfv '{}' \;
