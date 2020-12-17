@@ -11,7 +11,7 @@ def loadObjects():
     return objs
 
 
-@fixture
+@fixture(scope="module")
 def objects():
     yield loadObjects()
 

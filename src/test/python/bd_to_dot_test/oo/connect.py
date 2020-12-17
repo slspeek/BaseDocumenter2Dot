@@ -1,6 +1,9 @@
 import time
 import logging
+import subprocess
+import shlex
 
+import uno
 
 logger = logging.getLogger(__name__)
 logging.basicConfig()
@@ -8,11 +11,20 @@ logger.setLevel(logging.DEBUG)
 
 # time out in seconds
 OFFICE_TIME_OUT = 20
+SOFFICE_CMD = '/opt/libreoffice6.4/program/soffice '\
+              '--accept="socket,host=localhost,port=2002;urp;" '\
+              '--norestore --nologo --nodefault  --headless'\
+              ' {}'
+
+
+def startOffice(file):
+    args = shlex.split(SOFFICE_CMD.format(file))
+    office_proc = subprocess.Popen(args, shell=False)
+    logger.debug("LibreOffice started with {} ".format(file))
+    return office_proc
 
 
 def wait_for_connection():
-    import uno
-
     localContext = uno.getComponentContext()
 
     # create the UnoUrlResolver

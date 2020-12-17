@@ -1,44 +1,34 @@
 import logging
-import subprocess
-import shlex
+
 import os
 
 from pytest import fixture
 
-from bd_to_dot import graph, verify_queries
+from bd_to_dot import graph
 from bd_to_dot.oo.db import _int_list, loadObjects
-from bd_to_dot_test.oo.connect import datasource
+from bd_to_dot_test.oo.connect import datasource, startOffice
 
 logger = logging.getLogger()
 logging.basicConfig()
 logger.setLevel(logging.DEBUG)
 
 
-SOFFICE_CMD = '/opt/libreoffice6.4/program/soffice '\
-              '--accept="socket,host=localhost,port=2002;urp;" '\
-              '--norestore --nologo --nodefault  --headless'\
-              ' {}'
 DEFAULT_TESTDB = 'src/test/resources/testdb/BaseDocumenter.odb'
 
 
-@fixture(scope="session")
+@fixture(scope="module")
 def libreoffice():
     testdb = os.getenv("BD_TESTDB", DEFAULT_TESTDB)
-    args = shlex.split(SOFFICE_CMD.format(testdb))
-    office_proc = subprocess.Popen(args, shell=False)
-    logger.debug("LibreOffice started")
+    office_proc = startOffice(testdb)
     yield office_proc
     office_proc.terminate()
     logger.debug("LibreOffice killed")
 
 
-def test_verify_queries(libreoffice):
-    assert len(verify_queries(datasource())) == 0
-
-
 def test_connection(libreoffice):
-    logger.debug(dir(datasource()))
-    assert datasource().Name.endswith("BaseDocumenter.odb")
+    ds = datasource()
+    logger.debug(dir(ds))
+    assert ds.Name.endswith("BaseDocumenter.odb")
 
 
 def test_load_objects(libreoffice):
