@@ -45,7 +45,7 @@ def test_load_objects(libreoffice):
     connection = datasource().getConnection("sa", "")
     objs = loadObjects(connection)
     import pickle
-    with open('src/test/resources/objects.pickle', 'wb') as file:
+    with open('src/test/resources/fixtures/objects.pickle', 'wb') as file:
         pickle.dump(objs, file)
     assert len(objs) == 34
 
@@ -54,7 +54,7 @@ def test_view_graph(libreoffice):
     ds = datasource()
     conn = ds.getConnection("sa", "")
     g = graph(conn)
-    g.save("src/test/resources/testdb.gv")
+    g.save("src/test/resources/fixtures/testdb.gv")
     if os.getenv("BD_VIEW", 0):
         g.view()
 

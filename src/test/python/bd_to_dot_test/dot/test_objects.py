@@ -6,7 +6,7 @@ from bd_to_dot.dot.renderer import GraphRenderer, EXCLUDED_TYPES
 
 
 def loadObjects():
-    with open('src/test/resources/objects.pickle', 'rb') as file:
+    with open('src/test/resources/fixtures/objects.pickle', 'rb') as file:
         objs = pickle.load(file)
     return objs
 
