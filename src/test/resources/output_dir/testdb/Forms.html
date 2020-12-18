@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>List of forms</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="BaseDocumenter output">
+  <meta name="keywords" content="BaseDocumenter,Access2Base">
+  <meta name="author" content="Jean-Pierre Ledure">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../BD_Stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="../jquery/jquery.treeview.css">
+  <script type="text/javascript" src="../jquery/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="../jquery/jquery.floatThead.min.js"></script><!-- http://mkoryak.github.io/floatThead/ -->
+  <script type="text/javascript" src="../jquery/jquery.treeview.min.js"></script><!-- http://www.dynamicdrive.com/dynamicindex1/treeview/index.htm -->
+  <script type="text/javascript">
+    $(document).ready(function(){
+        var $table = $('.dbdatatable');
+        $table.floatThead();
+        $('.dbtoctree').treeview({
+            animated: 'normal',
+            collapsed: true,
+            persist: 'location'
+        });
+    });
+  </script>
+ </head>
+ <body>
+  <div style="display: block; position: fixed; bottom: 5px; left: 5px;"><a href="#" title="Back to top"><img src="../top_of_page.png" height="48" width="48"></a></div>
+  <table style="width:100%">
+   <caption></caption>
+   <thead>
+   </thead>
+   <tfoot>
+   </tfoot>
+   <tbody>
+    <tr>
+     <td>
+      <img src="../LibreOffice.png" alt="LibreOffice logo" width="200" height="59">
+     </td>
+     <td>
+      <table class="templateheader">
+       <caption style="font-size: 1.4em"><a href="http://www.access2base.com/basedocumenter" target="_blank">BASEDOCUMENTER</a><br />The software tool for documenting your LibreOffice Base applications<br />&nbsp;</caption>
+       <thead>
+       </thead>
+       <tfoot>
+       </tfoot>
+       <tbody>
+        <tr><td>Database file</td><td>/home/steven/BaseDocumenter2Dot/src/test/resources/testdb/testdb.odb</td></tr>
+        <tr><td>File actual save date</td><td>2020-12-16 23:55:55</td></tr>
+        <tr><td>Scanning done on</td><td>2020-12-18 23:01:25</td></tr>
+        <tr><td>Documentation generated on</td><td>2020-12-18 23:01:27</td></tr>
+       </tbody>
+      </table>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+  <div class="grid-container">
+   <div class="grid-item" onmouseout="var $table = $('.dbdatatable');$table.trigger('reflow');">
+    
+    <span class="dbtoctreeheader"><a href="../TOC.html" title="../TOC.html">Table of contents</a><br><a href="Database.html" title="Database">testdb</a></span>
+     <ul class="dbtoctree">
+      <li><a href="Tables.html" title="List of tables">Tables</a>
+       <ul>
+        <li><a href="Tables.html#00002" title="List of tables">Family</a></li>
+        <li><a href="Tables.html#00006" title="List of tables">Plant</a></li>
+        <li><a href="Tables.html#00010" title="List of tables">view1</a></li>
+       </ul>
+      </li>
+      <li><a href="Queries.html" title="List of queries">Queries</a>
+       <ul>
+        <li><a href="Queries.html#00012" title="List of queries">vwPlant</a></li>
+       </ul>
+      </li>
+      <li><a href="Forms.html" title="List of forms">Forms</a>
+       <ul>
+        <li><a href="Forms.html#00016" title="List of forms">Family</a></li>
+        <li><a href="Forms.html#00021" title="List of forms">Plant</a></li>
+        <li><a href="Forms.html#00028" title="List of forms">Plant invoeren</a></li>
+        <li><a href="Forms.html#00032" title="List of forms">view1</a></li>
+       </ul>
+      </li>
+      <li><a href="FullIndex.html" title="Index">Index</a></li>
+     </ul>
+   </div>
+   <div class="grid-item">
+    
+  <table class="dbdatatable">
+   <caption>List of forms</caption>
+   <thead>
+    <tr>
+     <th scope="col">Form name</th>
+     <th scope="col">Root form(s)</th>
+     <th scope="col">Data source(s)</th>
+     <th scope="col">Height</th>
+     <th scope="col">Width</th>
+     <th scope="col">Controls by form</th>
+    </tr>
+   </thead>
+   <tfoot>
+   </tfoot>
+   <tbody>
+    <tr class="firstrow odd">
+     <td class="firstcol char"><a id="00016"></a>Family</td>
+     <td class="char">MainForm</td>
+     <td class="char"><a href="Tables.html#00002" title="List of tables">Family (Table)</a></td>
+     <td class="numeric">950</td>
+     <td class="numeric">1590</td>
+     <td class="lastcol char"><a href="ControlsByForm.html#00016" title="Controls by form">Details</a></td>
+    </tr>
+    <tr class="even">
+     <td class="firstcol char"><a id="00021"></a>Plant</td>
+     <td class="char">MainForm</td>
+     <td class="char"><a href="Tables.html#00006" title="List of tables">Plant (Table)</a></td>
+     <td class="numeric">1018</td>
+     <td class="numeric">861</td>
+     <td class="lastcol char"><a href="ControlsByForm.html#00021" title="Controls by form">Details</a></td>
+    </tr>
+    <tr class="odd">
+     <td class="firstcol char"><a id="00028"></a>Plant invoeren</td>
+     <td class="char">MainForm</td>
+     <td class="char"><a href="Queries.html#00012" title="List of queries">vwPlant (Query)</a></td>
+     <td class="numeric">1006</td>
+     <td class="numeric">861</td>
+     <td class="lastcol char"><a href="ControlsByForm.html#00028" title="Controls by form">Details</a></td>
+    </tr>
+    <tr class="lastrow even">
+     <td class="firstcol char"><a id="00032"></a>view1</td>
+     <td class="char">MainForm</td>
+     <td class="char"><a href="Tables.html#00010" title="List of tables">view1 (Table)</a></td>
+     <td class="numeric">1006</td>
+     <td class="numeric">861</td>
+     <td class="lastcol char"><a href="ControlsByForm.html#00032" title="Controls by form">Details</a></td>
+    </tr>
+   </tbody>
+  </table>
+   </div>
+  </div>
+ </body>
+</html>

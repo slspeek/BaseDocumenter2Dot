@@ -6,12 +6,14 @@ lib=$(stage)/python/pythonpath
 build=$(target)/build
 PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/
 
-all: info format check itest unit oxt
+all: info check itest unit oxt
 
 .ONESHELL:
-prepare:
+.target:
 	-mkdir -p $(build)
 	cp -r src $(build)
+
+prepare: .target
 
 .ONESHELL:
 info: prepare
@@ -33,8 +35,9 @@ test: itest unit
 format:
 	autopep8 -ri src
 
-check:
-	flake8 src
+.ONESHELL:
+check: format
+	flake8 src && pycodestyle src
 
 .ONESHELL:
 view: prepare

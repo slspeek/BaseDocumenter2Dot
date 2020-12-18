@@ -17,15 +17,23 @@ def objects():
 
 
 def test_load_objects(objects):
-    assert 34 == len(objects)
+    assert 69 == len(objects)
 
 
 def test_verify_relationships(objects):
-    GraphRenderer("test", objects, [])
+    objects = list(filter(lambda x: x.DATABASEID == 2, objects))
+    objs = {}
+    for o in objects:
+        objs[o.INDEX] = o
+    GraphRenderer("test", objs, [])
 
 
 def test_view(objects):
-    gr = GraphRenderer("test", objects, EXCLUDED_TYPES)
+    objects = list(filter(lambda x: x.DATABASEID == 2, objects))
+    objs = {}
+    for o in objects:
+        objs[o.INDEX] = o
+    gr = GraphRenderer("test", objs, EXCLUDED_TYPES)
     g = gr.render_graph()
     g.save("src/test/resources/testdb.gv")
     if os.getenv("BD_VIEW", 0):

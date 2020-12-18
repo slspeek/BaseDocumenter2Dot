@@ -6,14 +6,14 @@ import unittest
 
 
 def test_build_graphs(objects, databases):  # NOQA: F811
-    build_graphs(databases, objects)
+    assert len(build_graphs(databases, objects)) == 2
 
 
 class OneDatabaseOnly(unittest.TestCase):
 
     def setUp(self):
-        self.dbs = {1: Database(1, "testdb", {})}
-        self.objs = {}
+        self.dbs = [Database(1, "testdb", {})]
+        self.objs = []
 
     def test_run_empty(self):
         build_graphs(self.dbs, self.objs)

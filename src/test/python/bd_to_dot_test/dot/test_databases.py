@@ -15,4 +15,4 @@ def databases():
 
 
 def test_load_databases(databases):
-    assert 1 == len(databases)
+    assert 2 == len(databases)

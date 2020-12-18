@@ -20,5 +20,5 @@ def generate_graphs(connection):
     databases = loadDatabases(connection)
     objects = loadObjects(connection)
     graphs = build_graphs(databases, objects)
-    for g in graphs:
+    for _, g in graphs:
         g.view()

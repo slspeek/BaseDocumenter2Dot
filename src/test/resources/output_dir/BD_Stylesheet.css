@@ -1,0 +1,205 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    background-color: Cornsilk;
+}
+.grid-container {
+    display: grid;
+    justify-content: start;
+    grid-template-columns: auto auto;
+}
+.dbdatatable {
+    padding: 0;
+    margin-left: 3%;
+    border-collapse: collapse;
+    border: 4px ridge #333;
+    font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 0.9em;
+    color: #000;
+    background: #f0f0f0;
+}
+.dbdatatable caption {
+    caption-side: top;
+    font-size: 1.4em;
+    font-style: italic;
+    text-align: left;
+    padding: 0.5em 0;
+}
+.dbdatatable table {
+    overflow: auto;
+}
+.dbdatatable thead {
+    position: sticky;
+    top: 0px;
+}
+.dbdatatable tbody {
+}
+.dbdatatable th, .dbdatatable td {
+    border: 1px dotted #666;
+    padding: 0.5em;
+    text-align: left;
+    color: #632a39;
+    vertical-align: top;
+}
+.dbdatatable th {  
+    color: #fff;
+    background-color: #8fadcc;
+ /*   text-transform: uppercase; */
+    background-color: #7d98b3;
+    border-right: 1px dotted #666;
+    text-align: center;
+    vertical-align: middle;
+}
+.dbdatatable tr.odd th, .dbdatatable tr.odd td {
+    background-color: #ffffff;
+}
+.dbdatatable tr:hover td {
+    background-color: Cornsilk; /*#e0e0e0;  /*#bcd0e4;*/
+}
+.dbdatatable a:link, .dbdatatable a:visited {
+    color: blue;
+}
+.dbdatatable a:hover {
+    background-color: #632a2a;
+    color: #fff;
+}
+.dbdatatable td.numeric {
+	text-align: right;
+}
+.dbdatatable td.bool {
+    font-size: 1.0em;
+	text-align: center;
+    color: green;
+}
+.dbdatatable td.false {
+    color: red;
+}
+.dbdatatable td.negative {
+	color: red;
+}
+.dbdatatable tr.firstrow {
+	border-top: 4px ridge #444;
+}
+.dbdatatable tr.lastrow {
+	border-bottom: 4px ridge #444;
+}
+.dbdatatable pre {
+    margin: 0;
+    font-size: 1.1em;
+    tab-size: 4;
+    -moz-tab-size: 4;
+}
+
+.dbtoctable {
+    padding: 0;
+    margin-left: 1%;
+    border-collapse: collapse;
+    border-style: none;
+    border-radius: 10px;
+    font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 1.0em;
+    color: #000;
+    background: #bcd0e4;
+}
+.dbtoctable td {
+    padding: 0.2em;
+    border-style: none;
+    text-align: middle;
+    color: #632a39;
+    vertical-align: middle;
+}
+.dbtoctable a:link, .dbtoctable a:visited {
+    color: blue;
+}
+.templateheader {
+    padding: 0;
+    margin-left: 20%;
+    border-collapse: collapse;
+    border-style: none;
+    font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: #000;
+    background: white;
+}
+.templateheader td {
+    border-style: none;
+    padding-left: 2.0em;
+    text-align: middle;
+    letter-spacing: 2px;
+    color: #632a39;
+    vertical-align: middle;
+}
+
+.dbdatatable .scriptidentifier {color: green;}
+.dbdatatable .scriptkeyword {color: blue;}
+.dbdatatable .scriptfunction {color: blue;}
+.dbdatatable .scriptcomment {color: gray;}
+.dbdatatable .scriptvardef {color: blue;}
+.dbdatatable .scriptstring {color: red;}
+.dbdatatable .scriptnumber {color: red;}
+.dbdatatable .scriptconstant {color: blue;}
+.dbdatatable .scriptoperator {}
+.dbdatatable .scripttablename {font-weight: bold;}
+.dbdatatable .scriptqueryname {font-weight: bold;}
+.dbdatatable .scriptformname {font-weight: bold;}
+.dbdatatable .scriptdialogname {font-weight: bold;}
+.dbdatatable .scriptprocname {font-weight: bold;}
+
+.dbdatatable .sqlquote {color: blue;}
+.dbdatatable .sqltablename {font-weight: bold;}
+.dbdatatable .sqlqueryname {font-weight: bold;}
+.dbdatatable .sqlkeyword {font-weight:bold;}
+.dbdatatable .sqlfunction {font-weight:bold;}
+.dbdatatable .sqlnumber {color: green;}
+.dbdatatable .sqlword {color: #333;}
+.dbdatatable .sqlerror {background-color: red;}
+.dbdatatable .sqlcomment {color: #aaa;}
+.dbdatatable .sqlvariable {color: orange;}
+
+.dbdatatable .bool {
+    font-size: 1.0em;
+	text-align: center;
+    color: green;
+}
+.dbdatatable .false {
+    color: red;
+}
+
+.dbtoctree, .dbtoctree ul {
+    margin: 0 0 0 1em; /* indentation */
+    padding: 0;
+    list-style: none;
+    color: #632a39;
+    position: relative;
+    font-size: 0.9em;
+    background-color: Cornsilk;
+    font-weight: bold;
+}
+.dbtoctree {
+    position: sticky;
+    top: 0;
+}
+.dbtoctree ul li {
+    background-color: Cornsilk;
+}
+.dbtoctree a:link, .dbtoctree a:visited {
+    color: #632a39;
+    text-decoration: none;
+}
+.dbtoctree a:hover {
+    background-color: #632a2a;
+    color: #fff;
+}
+.dbtoctreeheader {
+    font-weight: bold;
+}
+.dbtoctreeheader a:link, .dbtoctreeheader a:visited {
+    color: #632a2a;
+    text-decoration: none;
+}
+.dbtoctreeheader a:hover {
+    background-color: #632a2a;
+    color: #fff;
+}

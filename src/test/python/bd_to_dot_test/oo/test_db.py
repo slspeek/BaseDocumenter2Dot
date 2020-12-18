@@ -27,19 +27,24 @@ def libreoffice():
 def test_load_objects(libreoffice):
     connection = datasource().getConnection("sa", "")
     objs = loadObjects(connection)
+    connection.close()
+    connection.dispose()
+    print(objs)
     import pickle
     with open('src/test/resources/fixtures/objects.pickle', 'wb') as file:
         pickle.dump(objs, file)
-    assert len(objs) == 34
+    assert len(objs) == 69
 
 
 def test_load_databases(libreoffice):
     connection = datasource().getConnection("sa", "")
     dbs = loadDatabases(connection)
+    connection.close()
+    connection.dispose()
     import pickle
     with open('src/test/resources/fixtures/databases.pickle', 'wb') as file:
         pickle.dump(dbs, file)
-    assert len(dbs) == 1
+    assert len(dbs) == 2
 
 
 def test__int_list():

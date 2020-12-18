@@ -92,7 +92,7 @@ FROM "OBJECTS"
 def loadObjects(connection):
     stmt = connection.createStatement()
     rs = stmt.executeQuery(OBJECTS_QUERY)
-    objs = {}
+    objs = []
     while rs.next():
         properties = json.loads(rs.getString(12))
         o = Object(rs.getInt(1),
@@ -106,7 +106,7 @@ def loadObjects(connection):
                    _int_list(rs.getString(10)),
                    properties)
         o = o._replace(TYPE=TYPE(o))
-        objs[o.INDEX] = o
+        objs.append(o)
 
     return objs
 
@@ -114,12 +114,12 @@ def loadObjects(connection):
 def loadDatabases(connection):
     stmt = connection.createStatement()
     rs = stmt.executeQuery(DATABASES_QUERY)
-    dbs = {}
+    dbs = []
     while rs.next():
         settings = json.loads(rs.getString(10))
         d = Database(rs.getInt(1),
                      rs.getString(2),
                      settings)
-        dbs[d.ID] = d
+        dbs.append(d)
 
     return dbs
