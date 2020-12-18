@@ -4,6 +4,7 @@ import json
 Object = namedtuple('Object', ["INDEX", "TYPE", "NAME", "SHORTNAME",
                                "PARENTTYPE", "PARENTINDEX", "USES", "USEDBY",
                                "PROPERTIES"])
+Database = namedtuple('Database', ["ID", "NAME", "SETTINGS"])
 
 
 def TYPE(object):
@@ -23,6 +24,19 @@ def _int_list(value):
     else:
         return list(map(int, value.split("|")))
 
+
+DATABASES_QUERY = """SELECT "ID",
+        "NAME",
+        "LOCATION",
+        "VERSION",
+        "SCANSTATUS",
+        "SCANLOG",
+        "DOCSTATUS",
+        "DOCLOG",
+        "TOC",
+        "SETTINGS",
+        "PROPERTIES"
+        FROM "DATABASES" WHERE "ID" <> 0"""
 
 OBJECTS_QUERY = """SELECT "DATABASEID",
        "INDEX",
@@ -95,3 +109,19 @@ def loadObjects(connection):
     connection.close()
     connection.dispose()
     return objs
+
+
+def loadDatabases(connection):
+    stmt = connection.createStatement()
+    rs = stmt.executeQuery(DATABASES_QUERY)
+    dbs = {}
+    while rs.next():
+        settings = json.loads(rs.getString(10))
+        d = Database(rs.getInt(1),
+                     rs.getString(2),
+                     settings)
+        dbs[d.ID] = d
+
+    connection.close()
+    connection.dispose()
+    return dbs

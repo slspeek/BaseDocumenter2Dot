@@ -5,7 +5,7 @@ import os
 from pytest import fixture
 
 from bd_to_dot import graph
-from bd_to_dot.oo.db import _int_list, loadObjects
+from bd_to_dot.oo.db import _int_list, loadObjects, loadDatabases
 from bd_to_dot_test.oo.connect import datasource, startOffice
 
 logger = logging.getLogger()
@@ -25,12 +25,6 @@ def libreoffice():
     logger.debug("LibreOffice killed")
 
 
-def test_connection(libreoffice):
-    ds = datasource()
-    logger.debug(dir(ds))
-    assert ds.Name.endswith("BaseDocumenter.odb")
-
-
 def test_load_objects(libreoffice):
     connection = datasource().getConnection("sa", "")
     objs = loadObjects(connection)
@@ -38,6 +32,15 @@ def test_load_objects(libreoffice):
     with open('src/test/resources/fixtures/objects.pickle', 'wb') as file:
         pickle.dump(objs, file)
     assert len(objs) == 34
+
+
+def test_load_databases(libreoffice):
+    connection = datasource().getConnection("sa", "")
+    dbs = loadDatabases(connection)
+    import pickle
+    with open('src/test/resources/fixtures/databases.pickle', 'wb') as file:
+        pickle.dump(dbs, file)
+    assert len(dbs) == 1
 
 
 def test_view_graph(libreoffice):
