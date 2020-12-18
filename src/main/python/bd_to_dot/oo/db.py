@@ -1,7 +1,8 @@
 from collections import namedtuple
 import json
 
-Object = namedtuple('Object', ["INDEX", "TYPE", "NAME", "SHORTNAME",
+Object = namedtuple('Object', ["DATABASEID", "INDEX", "TYPE", "NAME",
+                               "SHORTNAME",
                                "PARENTTYPE", "PARENTINDEX", "USES", "USEDBY",
                                "PROPERTIES"])
 Database = namedtuple('Database', ["ID", "NAME", "SETTINGS"])
@@ -94,7 +95,8 @@ def loadObjects(connection):
     objs = {}
     while rs.next():
         properties = json.loads(rs.getString(12))
-        o = Object(rs.getInt(2),
+        o = Object(rs.getInt(1),
+                   rs.getInt(2),
                    rs.getString(3),
                    rs.getString(4),
                    rs.getString(5),
@@ -106,8 +108,6 @@ def loadObjects(connection):
         o = o._replace(TYPE=TYPE(o))
         objs[o.INDEX] = o
 
-    connection.close()
-    connection.dispose()
     return objs
 
 
@@ -122,6 +122,4 @@ def loadDatabases(connection):
                      settings)
         dbs[d.ID] = d
 
-    connection.close()
-    connection.dispose()
     return dbs

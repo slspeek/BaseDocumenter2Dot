@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title><!--Template_Title--></title>
+  <meta charset="UTF-8">
+  <meta name="description" content="BaseDocumenter output">
+  <meta name="keywords" content="BaseDocumenter,Access2Base">
+  <meta name="author" content="Jean-Pierre Ledure">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../BD_Stylesheet.css">
+  <link rel="stylesheet" type="text/css" href="../jquery/jquery.treeview.css">
+  <script type="text/javascript" src="../jquery/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="../jquery/jquery.floatThead.min.js"></script><!-- http://mkoryak.github.io/floatThead/ -->
+  <script type="text/javascript" src="../jquery/jquery.treeview.min.js"></script><!-- http://www.dynamicdrive.com/dynamicindex1/treeview/index.htm -->
+  <script type="text/javascript">
+    $(document).ready(function(){
+        var $table = $('.dbdatatable');
+        $table.floatThead();
+        $('.dbtoctree').treeview({
+            animated: 'normal',
+            collapsed: true,
+            persist: 'location'
+        });
+    });
+  </script>
+ </head>
+ <body>
+  <div style="display: block; position: fixed; bottom: 5px; left: 5px;"><a href="#" title="Back to top"><img src="../top_of_page.png" height="48" width="48"></a></div>
+  <table style="width:100%">
+   <caption></caption>
+   <thead>
+   </thead>
+   <tfoot>
+   </tfoot>
+   <tbody>
+    <tr>
+     <td>
+      <img src="../LibreOffice.png" alt="LibreOffice logo" width="200" height="59">
+     </td>
+     <td>
+      <table class="templateheader">
+       <caption style="font-size: 1.4em"><a href="http://www.access2base.com/basedocumenter" target="_blank">BASEDOCUMENTER</a><br />The software tool for documenting your LibreOffice Base applications<br />&nbsp;</caption>
+       <thead>
+       </thead>
+       <tfoot>
+       </tfoot>
+       <tbody>
+        <tr><td>Database file</td><td>%DBLOCATION%</td></tr>
+        <tr><td>File actual save date</td><td>%DBFILEDATE%</td></tr>
+        <tr><td>Scanning done on</td><td>%SCANTIME%</td></tr>
+        <tr><td>Documentation generated on</td><td>%NOW%</td></tr>
+       </tbody>
+      </table>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+  <div class="grid-container">
+   <div class="grid-item" onmouseout="var $table = $('.dbdatatable');$table.trigger('reflow');">
+    %DBTOCTREE%
+   </div>
+   <div class="grid-item">
+    %DBDATATABLE%
+   </div>
+  </div>
+ </body>
+</html>

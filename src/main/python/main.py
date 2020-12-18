@@ -1,15 +1,15 @@
-from bd_to_dot import graph, verify_queries
+from bd_to_dot import verify_queries, generate_graphs
 
 
-def view_graph():
+def run_generate_graphs():
     try:
         db = XSCRIPTCONTEXT.getDocument().DataSource  # NOQA
     except AttributeError:
         return
     conn = db.getConnection("", "")
-
-    g = graph(conn)
-    g.view()
+    generate_graphs(conn)
+    conn.close()
+    conn.dispose()
 
 
 def run_verify_queries():
@@ -23,4 +23,4 @@ def run_verify_queries():
         raise Exception(str(errors))
 
 
-g_exportedScripts = (view_graph, run_verify_queries)
+g_exportedScripts = (run_generate_graphs, run_verify_queries)

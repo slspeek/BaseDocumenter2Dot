@@ -11,7 +11,7 @@ def loadObjects():
     return objs
 
 
-@fixture(scope="module")
+@fixture(scope="package")
 def objects():
     yield loadObjects()
 
@@ -21,11 +21,11 @@ def test_load_objects(objects):
 
 
 def test_verify_relationships(objects):
-    GraphRenderer(objects, [])
+    GraphRenderer("test", objects, [])
 
 
 def test_view(objects):
-    gr = GraphRenderer(objects, EXCLUDED_TYPES)
+    gr = GraphRenderer("test", objects, EXCLUDED_TYPES)
     g = gr.render_graph()
     g.save("src/test/resources/testdb.gv")
     if os.getenv("BD_VIEW", 0):

@@ -4,7 +4,6 @@ import os
 
 from pytest import fixture
 
-from bd_to_dot import graph
 from bd_to_dot.oo.db import _int_list, loadObjects, loadDatabases
 from bd_to_dot_test.oo.connect import datasource, startOffice
 
@@ -41,15 +40,6 @@ def test_load_databases(libreoffice):
     with open('src/test/resources/fixtures/databases.pickle', 'wb') as file:
         pickle.dump(dbs, file)
     assert len(dbs) == 1
-
-
-def test_view_graph(libreoffice):
-    ds = datasource()
-    conn = ds.getConnection("sa", "")
-    g = graph(conn)
-    g.save("src/test/resources/fixtures/testdb.gv")
-    if os.getenv("BD_VIEW", 0):
-        g.view()
 
 
 def test__int_list():

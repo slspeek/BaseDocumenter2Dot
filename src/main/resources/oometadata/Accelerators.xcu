@@ -4,12 +4,16 @@
 
     <node oor:name="com.sun.star.sdb.OfficeDatabaseDocument">
 
-              <node oor:name="F10_SHIFT_MOD2" oor:op="replace">
+              <node oor:name="F12_SHIFT_MOD2" oor:op="replace">
                 <prop oor:name="Command">
-                  <value xml:lang="en-US">vnd.sun.star.script:bd2dot.oxt|python|main.py$view_graph?language=Python&amp;location=user:uno_packages</value>
+                  <value xml:lang="en-US">vnd.sun.star.script:bd2dot.oxt|python|main.py$run_verify_queries?language=Python&amp;location=user:uno_packages</value>
                 </prop>
               </node>
-
+              <node oor:name="F10_SHIFT_MOD2" oor:op="replace">
+                <prop oor:name="Command">
+                  <value xml:lang="en-US">vnd.sun.star.script:bd2dot.oxt|python|main.py$run_generate_graphs?language=Python&amp;location=user:uno_packages</value>
+                </prop>
+              </node>
           </node>
       </node>
     </node>

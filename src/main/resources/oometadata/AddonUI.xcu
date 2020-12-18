@@ -19,16 +19,32 @@
                   <value>Ignore</value>
                </prop>
                <node oor:name="MenuItems">
-                  <node oor:name="N002" oor:op="replace">
+                
+                  <node oor:name="N003" oor:op="replace">
                      <prop oor:name="Context" oor:type="xs:string">
                         <value/>
                      </prop>
                      <prop oor:name="Title" oor:type="xs:string">
-                        <value xml:lang="en">BaseDocumenter graph</value>
+                        <value xml:lang="en">Test all queries</value>
 
                      </prop>
                      <prop oor:name="URL" oor:type="xs:string">
-                        <value>vnd.sun.star.script:bd2dot.oxt|python|main.py$view_graph?language=Python&amp;location=user:uno_packages</value>
+                        <value>vnd.sun.star.script:bd2dot.oxt|python|main.py$run_verify_queries?language=Python&amp;location=user:uno_packages</value>
+                     </prop>
+                     <prop oor:name="Target" oor:type="xs:string">
+                        <value>_self</value>
+                     </prop>
+                  </node>
+                  <node oor:name="N004" oor:op="replace">
+                     <prop oor:name="Context" oor:type="xs:string">
+                        <value/>
+                     </prop>
+                     <prop oor:name="Title" oor:type="xs:string">
+                        <value xml:lang="en">Generate graphs</value>
+
+                     </prop>
+                     <prop oor:name="URL" oor:type="xs:string">
+                        <value>vnd.sun.star.script:bd2dot.oxt|python|main.py$run_generate_graphs?language=Python&amp;location=user:uno_packages</value>
                      </prop>
                      <prop oor:name="Target" oor:type="xs:string">
                         <value>_self</value>

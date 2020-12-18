@@ -31,19 +31,19 @@ RELATION_ATTR = {
 EXCLUDED_TYPES = ["Database", "Field", "Module"]
 
 
-def build_graph(dictObjs):
-    gr = GraphRenderer(dictObjs, EXCLUDED_TYPES)
+def build_graph(name, dictObjs):
+    gr = GraphRenderer(name, dictObjs, EXCLUDED_TYPES)
     graph = gr.render_graph()
     return graph
 
 
 class GraphRenderer(object):
 
-    def __init__(self, dictObjs, excluded_types):
+    def __init__(self, name, dictObjs, excluded_types):
         self.dictObjs = dictObjs
         self._verify_relationships()
         self.excluded_types = excluded_types
-        self.name = self._name()
+        self.name = name
         self._filter_objs()
         self.graph = Digraph(self.name)
         self.graph.attr("graph", rankdir="LR")
@@ -66,15 +66,6 @@ class GraphRenderer(object):
             filter(relevant_control_filter,
                    self.objs)
         )
-
-    def _name(self):
-        objs = self.dictObjs.values()
-        dbs = [o for o in objs if o.TYPE == "Database"]
-        if len(dbs) > 1:
-            raise ValueError("Too many Database objects in list")
-        if len(dbs) < 1:
-            raise ValueError("No Database objects in list")
-        return dbs[0].NAME
 
     def _related_objs(self):
         res = []

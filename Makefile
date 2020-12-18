@@ -35,7 +35,6 @@ format:
 
 check:
 	flake8 src
-	pycodestyle src
 
 .ONESHELL:
 view: prepare
