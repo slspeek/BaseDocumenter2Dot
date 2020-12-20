@@ -1,4 +1,5 @@
 from graphviz import Digraph
+from bd_to_dot.oo.db import Object
 
 TYPE_ATTRS = {
     "Table": {"shape": "cylinder", "fillcolor": "#a7c3eb", "style": "filled"},
@@ -28,6 +29,24 @@ RELATION_ATTR = {
     ("Query", "Query"): {"arrowhead": "dot"}
 }
 
+TYPE_HREF = {
+    "Table": "Tables",
+    "View": "Tables",
+    "Query": "Queries",
+    "Form": "Forms",
+    "Report": "FullIndex",
+    "Dialog": "FullIndex",
+    "Module": "Modules",
+    "Toolbar": "FullIndex",
+    "Field": "FullIndex",
+    "SubForm": "FullIndex",
+    "Grid": "FullIndex",
+    "Control": "ControlsByForm",
+    "Event": "FullIndex",
+    "Procedure": "ProceduresByModule",
+    "Toolbarcontrol": "FullIndex"
+}
+
 EXCLUDED_TYPES = ["Database", "Field", "Module"]
 
 
@@ -35,6 +54,12 @@ def build_graph(name, dictObjs):
     gr = GraphRenderer(name, dictObjs, EXCLUDED_TYPES)
     graph = gr.render_graph()
     return graph
+
+
+def href(obj: Object):
+    id = "%05.d" % obj.INDEX
+    file = TYPE_HREF[obj.TYPE]
+    return "../{}.html#{}".format(file, id)
 
 
 class GraphRenderer(object):
@@ -103,6 +128,7 @@ class GraphRenderer(object):
             label = obj.SHORTNAME
         self.graph.node(str(obj.INDEX),
                         label=label,
+                        href=href(obj),
                         _attributes=TYPE_ATTRS[obj.TYPE])
 
     def _render_relation(self, startObj, endObj):
