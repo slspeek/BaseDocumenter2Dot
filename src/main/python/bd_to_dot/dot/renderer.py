@@ -21,6 +21,7 @@ TYPE_ATTRS = {
 
 RELATION_ATTR = {
     ("Table", "Table"): {},
+    ("Procedure", "Procedure"): {"arrowhead": "dot", "color": "#90EE90"},
     ("Form", "Table"): {"arrowhead": "box", "color": "red"},
     ("View", "Table"): {"arrowhead": "dot"},
     ("Form", "View"): {"arrowhead": "dot"},
@@ -33,7 +34,7 @@ TYPE_HREF = {
     "Table": "Tables",
     "View": "Tables",
     "Query": "Queries",
-    "Form": "Forms",
+    "Form": "ControlsByForm",
     "Report": "FullIndex",
     "Dialog": "FullIndex",
     "Module": "Modules",
@@ -56,10 +57,13 @@ def build_graph(name, dictObjs):
     return graph
 
 
+def id(obj):
+    return "%05.d" % obj.INDEX
+
+
 def href(obj: Object):
-    id = "%05.d" % obj.INDEX
     file = TYPE_HREF[obj.TYPE]
-    return "../{}.html#{}".format(file, id)
+    return "../{}.html#{}".format(file, id(obj))
 
 
 class GraphRenderer(object):
@@ -129,6 +133,7 @@ class GraphRenderer(object):
         self.graph.node(str(obj.INDEX),
                         label=label,
                         href=href(obj),
+                        id=id(obj),
                         _attributes=TYPE_ATTRS[obj.TYPE])
 
     def _render_relation(self, startObj, endObj):
@@ -136,6 +141,7 @@ class GraphRenderer(object):
         attrs = {}
         if types in RELATION_ATTR:
             attrs = RELATION_ATTR[types]
+        attrs["edgetooltip"] = "target: {}".format(endObj.NAME)
         self.graph.edge(str(startObj.INDEX),
                         str(endObj.INDEX),
                         _attributes=attrs)
