@@ -15,7 +15,7 @@ all: info check itest unit oxt
 prepare:
 	-mkdir -p $(build) $(test_output)
 	cp -r src $(build)
-	cp -r src/test/resources/output_dir $(build)
+	cp -r src/test/resources/output-dir $(build)
 
 .ONESHELL:
 info: prepare
@@ -68,3 +68,8 @@ oxt:
 install_oxt:
 	-$(unopkg) remove "com.github.slspeek.BaseDocumenter2Dot"
 	$(unopkg) add -s $(dist)/bd2dot.oxt
+
+open_test_db: prepare
+	cd $(build)
+	$(libreoffice)/soffice src/test/resources/testdb/testdb.odb \
+													src/test/resources/testdb/testdb_broken_query.odb

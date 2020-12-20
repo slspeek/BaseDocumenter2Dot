@@ -26,6 +26,7 @@ def build_database(database, objects):
 
 def write_graphs(dbgraphs):
     for db, g in dbgraphs:
-        output = db.SETTINGS["DocumenterOutputDir"] + "/graphs"
+        output = db.SETTINGS["DocumenterOutputDir"]\
+            + "/{}/graphs".format(db.NAME)
         g.save(directory=output)
         g.render(format="svg")

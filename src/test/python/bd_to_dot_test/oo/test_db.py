@@ -13,7 +13,7 @@ logging.basicConfig()
 logger.setLevel(logging.DEBUG)
 
 
-DEFAULT_TESTDB = 'src/test/resources/testdb/BaseDocumenter.odb'
+DEFAULT_TESTDB = 'src/test/resources/testdb/BaseDocumenter-test-output.odb'
 
 
 @fixture(scope="module")

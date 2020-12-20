@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title>List of forms</title>
+  <title>List of queries</title>
   <meta charset="UTF-8">
   <meta name="description" content="BaseDocumenter output">
   <meta name="keywords" content="BaseDocumenter,Access2Base">
@@ -45,10 +45,11 @@
        <tfoot>
        </tfoot>
        <tbody>
-        <tr><td>Database file</td><td>/home/steven/BaseDocumenter2Dot/src/test/resources/testdb/testdb.odb</td></tr>
-        <tr><td>File actual save date</td><td>2020-12-16 23:55:55</td></tr>
-        <tr><td>Scanning done on</td><td>2020-12-18 23:01:25</td></tr>
-        <tr><td>Documentation generated on</td><td>2020-12-18 23:01:27</td></tr>
+        <tr><td>Database file</td><td>/home/steven/BaseDocumenter2Dot/target/build/src/test/resources/testdb/testdb.odb</td></tr>
+        <tr><td>File actual save date</td><td>2020-12-20 22:24:12</td></tr>
+        <tr><td>Scanning done on</td><td>2020-12-20 22:24:35</td></tr>
+        <tr><td>Documentation generated on</td><td>2020-12-20 22:24:37</td></tr>
+        <tr><td span=2><a href="graphs/testdb.gv.svg">Graph of objects</a></td></tr>
        </tbody>
       </table>
      </td>
@@ -86,51 +87,25 @@
    <div class="grid-item">
     
   <table class="dbdatatable">
-   <caption>List of forms</caption>
+   <caption>List of queries</caption>
    <thead>
     <tr>
-     <th scope="col">Form name</th>
-     <th scope="col">Root form(s)</th>
-     <th scope="col">Data source(s)</th>
-     <th scope="col">Height</th>
-     <th scope="col">Width</th>
-     <th scope="col">Controls by form</th>
+     <th scope="col">Query name</th>
+     <th scope="col">Used by</th>
+     <th scope="col">Query type</th>
+     <th scope="col">List of fields</th>
+     <th scope="col">SQL</th>
     </tr>
    </thead>
    <tfoot>
    </tfoot>
    <tbody>
-    <tr class="firstrow odd">
-     <td class="firstcol char"><a id="00016"></a>Family</td>
-     <td class="char">MainForm</td>
-     <td class="char"><a href="Tables.html#00002" title="List of tables">Family (Table)</a></td>
-     <td class="numeric">950</td>
-     <td class="numeric">1590</td>
-     <td class="lastcol char"><a href="ControlsByForm.html#00016" title="Controls by form">Details</a></td>
-    </tr>
-    <tr class="even">
-     <td class="firstcol char"><a id="00021"></a>Plant</td>
-     <td class="char">MainForm</td>
-     <td class="char"><a href="Tables.html#00006" title="List of tables">Plant (Table)</a></td>
-     <td class="numeric">1018</td>
-     <td class="numeric">861</td>
-     <td class="lastcol char"><a href="ControlsByForm.html#00021" title="Controls by form">Details</a></td>
-    </tr>
-    <tr class="odd">
-     <td class="firstcol char"><a id="00028"></a>Plant invoeren</td>
-     <td class="char">MainForm</td>
-     <td class="char"><a href="Queries.html#00012" title="List of queries">vwPlant (Query)</a></td>
-     <td class="numeric">1006</td>
-     <td class="numeric">861</td>
-     <td class="lastcol char"><a href="ControlsByForm.html#00028" title="Controls by form">Details</a></td>
-    </tr>
-    <tr class="lastrow even">
-     <td class="firstcol char"><a id="00032"></a>view1</td>
-     <td class="char">MainForm</td>
-     <td class="char"><a href="Tables.html#00010" title="List of tables">view1 (Table)</a></td>
-     <td class="numeric">1006</td>
-     <td class="numeric">861</td>
-     <td class="lastcol char"><a href="ControlsByForm.html#00032" title="Controls by form">Details</a></td>
+    <tr class="firstrow lastrow odd">
+     <td class="firstcol char"><a id="00012"></a>vwPlant</td>
+     <td class="char"><a href="Forms.html#00028" title="List of forms">Plant invoeren (Form)</a></td>
+     <td class="char">SELECT</td>
+     <td class="char"><a href="FieldsByQuery.html#00012" title="List of fields by query">Details</a></td>
+     <td class="lastcol char"><pre><span class="sqlkeyword">SELECT</span> <br>	* <br><span class="sqlkeyword">FROM</span> <br>	<span class="sqltablename"><a href="Tables.html#00006" title="List of tables">&quot;Plant&quot;</a></span></pre></td>
     </tr>
    </tbody>
   </table>
