@@ -6,6 +6,7 @@ from pytest import fixture
 
 from bd_to_dot.oo.db import _int_list, loadObjects, loadDatabases
 from bd_to_dot_test.oo.connect import datasource, startOffice
+from bd_to_dot_test.dot.resource import TEST_OUTPUT
 
 logger = logging.getLogger()
 logging.basicConfig()
@@ -31,7 +32,7 @@ def test_load_objects(libreoffice):
     connection.dispose()
     print(objs)
     import pickle
-    with open('src/test/resources/fixtures/objects.pickle', 'wb') as file:
+    with open(TEST_OUTPUT.format('objects.pickle'), 'wb') as file:
         pickle.dump(objs, file)
     assert len(objs) == 69
 
@@ -42,7 +43,7 @@ def test_load_databases(libreoffice):
     connection.close()
     connection.dispose()
     import pickle
-    with open('src/test/resources/fixtures/databases.pickle', 'wb') as file:
+    with open(TEST_OUTPUT.format('databases.pickle'), 'wb') as file:
         pickle.dump(dbs, file)
     assert len(dbs) == 2
 

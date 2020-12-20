@@ -14,4 +14,4 @@ tar xvf ${filename}.tar.gz
 dpkg -i Lib*_Linux_x86-64*deb*/DEBS/*.deb
 
 twodigitsversion=$(echo $VERSION | cut -c 1-3)
-ln -sf /opt/libreoffice${twodigitsversion}/program/python /tmp/python
+ln -sf /opt/libreoffice${twodigitsversion}/program /tmp/program

@@ -1,10 +1,11 @@
 import pickle
 
 from pytest import fixture
+from bd_to_dot_test.dot.resource import FIXTURE_DIR
 
 
 def loadDatabases():
-    with open('src/test/resources/fixtures/databases.pickle', 'rb') as file:
+    with open(FIXTURE_DIR.format('databases.pickle'), 'rb') as file:
         dbs = pickle.load(file)
     return dbs
 

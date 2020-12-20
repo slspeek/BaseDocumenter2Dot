@@ -1,19 +1,21 @@
-python=/tmp/python
+libreoffice=/tmp/program
+python=$(libreoffice)/python
+unopkg=$(libreoffice)/unopkg
 target=target
 dist=$(target)/dist
 stage=$(dist)/bd2dot_oxt/
 lib=$(stage)/python/pythonpath
 build=$(target)/build
-PYTHONPATH=./src/main/python:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/
+test_output=$(build)/test-output
+PYTHONPATH=./src/main/python:./vendor:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/
 
 all: info check itest unit oxt
 
-.ONESHELL:
-.target:
-	-mkdir -p $(build)
-	cp -r src $(build)
 
-prepare: .target
+prepare:
+	-mkdir -p $(build) $(test_output)
+	cp -r src $(build)
+	cp -r src/test/resources/output_dir $(build)
 
 .ONESHELL:
 info: prepare
@@ -47,6 +49,7 @@ view: prepare
 clean:
 	-@find src -type d -name __pycache__ -exec rm -rf '{}' \;
 	-@rm -rf $(target)
+	#-@rm -rf src/test/resources/output_dir/graphs
 	@echo $(target) was removed
 
 .ONESHELL:
@@ -61,3 +64,7 @@ oxt:
 	cd $(stage)
 	zip -r ../bd2dot.oxt .
 	unzip -t ../bd2dot.oxt
+
+install_oxt:
+	-$(unopkg) remove "com.github.slspeek.BaseDocumenter2Dot"
+	$(unopkg) add -s $(dist)/bd2dot.oxt

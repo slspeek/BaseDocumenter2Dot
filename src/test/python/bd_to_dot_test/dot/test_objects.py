@@ -3,10 +3,11 @@ import os
 
 from pytest import fixture
 from bd_to_dot.dot.renderer import GraphRenderer, EXCLUDED_TYPES
+from bd_to_dot_test.dot.resource import TEST_OUTPUT, FIXTURE_DIR
 
 
 def loadObjects():
-    with open('src/test/resources/fixtures/objects.pickle', 'rb') as file:
+    with open(FIXTURE_DIR.format('objects.pickle'), 'rb') as file:
         objs = pickle.load(file)
     return objs
 
@@ -35,6 +36,6 @@ def test_view(objects):
         objs[o.INDEX] = o
     gr = GraphRenderer("test", objs, EXCLUDED_TYPES)
     g = gr.render_graph()
-    g.save("src/test/resources/testdb.gv")
+    g.save(TEST_OUTPUT.format("testdb.gv"))
     if os.getenv("BD_VIEW", 0):
         g.view()
