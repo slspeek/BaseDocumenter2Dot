@@ -136,12 +136,26 @@ class GraphRenderer(object):
                         id=id(obj),
                         _attributes=TYPE_ATTRS[obj.TYPE])
 
+    def _render_parent_relation(self, startObj, endObj):
+        types = (startObj.TYPE, endObj.TYPE)
+        attrs = {}
+        if types in RELATION_ATTR:
+            attrs = RELATION_ATTR[types]
+        attrs["edgetooltip"] = "{} is child of {}"\
+            .format(startObj.NAME, endObj.NAME)
+        attrs["style"] = "dashed"
+        attrs["color"] = "#ffcc99"
+        attrs["arrowhead"] = "none"
+        self.graph.edge(str(startObj.INDEX),
+                        str(endObj.INDEX),
+                        _attributes=attrs)
+
     def _render_relation(self, startObj, endObj):
         types = (startObj.TYPE, endObj.TYPE)
         attrs = {}
         if types in RELATION_ATTR:
             attrs = RELATION_ATTR[types]
-        attrs["edgetooltip"] = "target: {}".format(endObj.NAME)
+        attrs["edgetooltip"] = "{} -> {}".format(startObj.NAME, endObj.NAME)
         self.graph.edge(str(startObj.INDEX),
                         str(endObj.INDEX),
                         _attributes=attrs)
@@ -154,5 +168,5 @@ class GraphRenderer(object):
         for (startObj, endObj) in relations:
             self._render_relation(startObj, endObj)
         for (startObj, endObj) in parent_rel:
-            self._render_relation(startObj, endObj)
+            self._render_parent_relation(startObj, endObj)
         return self.graph

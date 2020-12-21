@@ -9,4 +9,4 @@ before_install:
 install:
     - pip install pytest flake8 pycodestyle autopep8 graphviz
 script:
-    - make all
+    - make all install_oxt
