@@ -1,5 +1,4 @@
 from graphviz import Digraph
-from bd_to_dot.oo.db import Object
 
 TYPE_ATTRS = {
     "Table": {"shape": "cylinder", "fillcolor": "#a7c3eb", "style": "filled"},
@@ -11,7 +10,8 @@ TYPE_ATTRS = {
     "Module": {"shape": "component"},
     "Toolbar": {"shape": "tab"},
     "Field": {"shape": "invhouse"},
-    "SubForm": {"shape": "pentagon"},
+    "SubForm": {"shape": "doubleoctagon",
+                "style": "filled", "fillcolor": "#d3d3d3"},
     "Grid": {"shape": "Mdiamond"},
     "Control": {"shape": "octagon", "style": "filled", "fillcolor": "#d3d3d3"},
     "Event": {"shape": "square"},
@@ -21,6 +21,9 @@ TYPE_ATTRS = {
 
 RELATION_ATTR = {
     ("Table", "Table"): {},
+    ("Control", "Table"): {"arrowhead": "box", "color": "red"},
+    ("Control", "Query"): {"arrowhead": "dot"},
+    ("SubForm", "Table"): {"arrowhead": "box", "color": "red"},
     ("Procedure", "Procedure"): {"arrowhead": "dot", "color": "#90EE90"},
     ("Form", "Table"): {"arrowhead": "box", "color": "red"},
     ("View", "Table"): {"arrowhead": "dot"},
@@ -61,7 +64,7 @@ def id(obj):
     return "%05.d" % obj.INDEX
 
 
-def href(obj: Object):
+def href(obj):
     file = TYPE_HREF[obj.TYPE]
     return "../{}.html#{}".format(file, id(obj))
 
@@ -132,6 +135,7 @@ class GraphRenderer(object):
             label = obj.SHORTNAME
         self.graph.node(str(obj.INDEX),
                         label=label,
+                        tooltip="{} ({})".format(obj.NAME, obj.TYPE),
                         href=href(obj),
                         id=id(obj),
                         _attributes=TYPE_ATTRS[obj.TYPE])

@@ -6,14 +6,11 @@ from pytest import fixture
 
 from bd_to_dot.oo.db import _int_list, loadObjects, loadDatabases
 from bd_to_dot_test.oo.connect import datasource, startOffice
-from bd_to_dot_test.dot.resource import TEST_OUTPUT
+from bd_to_dot_test.dot.resource import TEST_OUTPUT, DEFAULT_TESTDB
 
 logger = logging.getLogger()
 logging.basicConfig()
 logger.setLevel(logging.DEBUG)
-
-
-DEFAULT_TESTDB = 'src/test/resources/testdb/BaseDocumenter-test-output.odb'
 
 
 @fixture(scope="module")

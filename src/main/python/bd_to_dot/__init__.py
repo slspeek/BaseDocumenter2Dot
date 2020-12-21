@@ -19,6 +19,4 @@ def verify_queries(datasource):
 def generate_graphs(connection):
     databases = loadDatabases(connection)
     objects = loadObjects(connection)
-    graphs = build_graphs(databases, objects)
-    for _, g in graphs:
-        g.view()
+    build_graphs(databases, objects)

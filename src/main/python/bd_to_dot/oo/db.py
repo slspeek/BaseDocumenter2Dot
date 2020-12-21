@@ -16,7 +16,13 @@ def TYPE(object):
         else:
             return object.TYPE
     else:
-        return object.TYPE
+        if object.TYPE == 'Control':
+            if 'ControlType' in object.PROPERTIES.keys() and\
+               object.PROPERTIES['ControlType'] == "SUBFORMCONTROL":
+                return 'SubForm'
+            else:
+                return object.TYPE
+    return object.TYPE
 
 
 def _int_list(value):

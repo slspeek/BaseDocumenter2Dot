@@ -49,11 +49,11 @@ def wait_for_connection():
     else:
         raise Exception("Gave up waiting for libreoffice after {} seconds"
                         .format(OFFICE_TIME_OUT))
-    return ctx.ServiceManager
+    return ctx
 
 
 def smgr():
-    return wait_for_connection()
+    return wait_for_connection().ServiceManager
 
 
 def desktop():

@@ -7,9 +7,9 @@ stage=$(dist)/bd2dot_oxt/
 lib=$(stage)/python/pythonpath
 build=$(target)/build
 test_output=$(build)/test-output
-PYTHONPATH=./src/main/python:./vendor:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/
+PYTHONPATH=./src/test/python:./src/main/python:./vendor:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/
 
-all: info check itest unit oxt
+all: clean info check itest unit oxt install_oxt e2etest
 
 
 prepare:
@@ -28,6 +28,11 @@ itest: prepare
 	PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/test/python/bd_to_dot_test/oo
 
 .ONESHELL:
+e2etest: prepare oxt install_oxt
+		cd $(build)
+		PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/e2etest/python
+
+.ONESHELL:
 unit: prepare
 	cd $(build)
 	PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/test/python/bd_to_dot_test/dot
@@ -44,7 +49,7 @@ check: format
 .ONESHELL:
 view: prepare
 	cd $(build)
-	BD_VIEW=1 PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/test/python/bd_to_dot_test/dot/test_objects.py::test_view
+	BD_VIEW=1 PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/test/python/bd_to_dot_test/oo/run_oxt.py::test_run_oxt
 
 clean:
 	-@find src -type d -name __pycache__ -exec rm -rf '{}' \;
