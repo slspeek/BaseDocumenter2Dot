@@ -74,7 +74,12 @@ install_oxt:
 	-$(unopkg) remove "com.github.slspeek.BaseDocumenter2Dot"
 	$(unopkg) add -s $(dist)/bd2dot.oxt
 
+.ONESHELL:
 open_test_db: prepare
 	cd $(build)
 	$(libreoffice)/soffice src/test/resources/testdb/testdb.odb \
 													src/test/resources/testdb/testdb_broken_query.odb
+.ONESHELL:
+open_shell: prepare
+	cd $(build)
+	PYTHONPATH=$(PYTHONPATH) rlwrap $(python) -i src/test/python/bd_to_dot_test/oo/connect.py

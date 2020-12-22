@@ -1,5 +1,16 @@
 from bd_to_dot.oo.db import loadObjects, loadDatabases
 from bd_to_dot.dot.repository import build_graphs
+from contextlib import contextmanager
+
+
+@contextmanager
+def open_connection(datasource):
+    conn = datasource.getConnection("", "")
+    try:
+        yield conn
+    finally:
+        conn.close()
+        conn.dispose
 
 
 def verify_queries(datasource):

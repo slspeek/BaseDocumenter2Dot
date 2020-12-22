@@ -5,6 +5,7 @@ import os
 from pytest import fixture
 
 from bd_to_dot.oo.db import _int_list, loadObjects, loadDatabases
+from bd_to_dot import open_connection
 from bd_to_dot_test.oo.connect import datasource, startOffice
 from bd_to_dot_test.dot.resource import TEST_OUTPUT, DEFAULT_TESTDB
 
@@ -23,10 +24,8 @@ def libreoffice():
 
 
 def test_load_objects(libreoffice):
-    connection = datasource().getConnection("sa", "")
-    objs = loadObjects(connection)
-    connection.close()
-    connection.dispose()
+    with open_connection(datasource()) as conn:
+        objs = loadObjects(conn)
     print(objs)
     import pickle
     with open(TEST_OUTPUT.format('objects.pickle'), 'wb') as file:
@@ -35,10 +34,8 @@ def test_load_objects(libreoffice):
 
 
 def test_load_databases(libreoffice):
-    connection = datasource().getConnection("sa", "")
-    dbs = loadDatabases(connection)
-    connection.close()
-    connection.dispose()
+    with open_connection(datasource()) as conn:
+        dbs = loadDatabases(conn)
     import pickle
     with open(TEST_OUTPUT.format('databases.pickle'), 'wb') as file:
         pickle.dump(dbs, file)

@@ -1,4 +1,4 @@
-from bd_to_dot import verify_queries, generate_graphs
+from bd_to_dot import verify_queries, generate_graphs, open_connection
 
 
 def run_generate_graphs():
@@ -6,10 +6,8 @@ def run_generate_graphs():
         db = XSCRIPTCONTEXT.getDocument().DataSource  # NOQA
     except AttributeError:
         return
-    conn = db.getConnection("", "")
-    generate_graphs(conn)
-    conn.close()
-    conn.dispose()
+    with open_connection(db) as conn:
+        generate_graphs(conn)
 
 
 def run_verify_queries():
