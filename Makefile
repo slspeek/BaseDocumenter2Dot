@@ -30,7 +30,12 @@ itest: prepare
 .ONESHELL:
 e2etest: prepare oxt install_oxt
 		cd $(build)
+		-rm -rfv output-dir/testdb/graphs
+		-rm -rfv output-dir/testdb_broken_query/graphs
 		PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/e2etest/python
+		diff -r src/e2etest/resources/fixtures/generated_graphs/testdb/graphs output-dir/testdb/graphs
+		diff -r src/e2etest/resources/fixtures/generated_graphs/testdb_broken_query/graphs output-dir/testdb_broken_query/graphs
+
 
 .ONESHELL:
 unit: prepare

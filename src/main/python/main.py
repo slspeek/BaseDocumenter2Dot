@@ -1,4 +1,5 @@
 from bd_to_dot import verify_queries, generate_graphs, open_connection
+from bd_to_dot.ui.dialog import verifyDialog
 
 
 def run_generate_graphs():
@@ -21,4 +22,13 @@ def run_verify_queries():
         raise Exception(str(errors))
 
 
-g_exportedScripts = (run_generate_graphs, run_verify_queries)
+def run_verify_dialog():
+    try:
+        ctx = XSCRIPTCONTEXT.getComponentContext()  # NOQA
+        verifyDialog(ctx=ctx)
+    except AttributeError:
+        return
+
+
+g_exportedScripts = (run_generate_graphs,
+                     run_verify_queries, run_verify_dialog)
