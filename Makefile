@@ -33,8 +33,8 @@ e2etest: prepare oxt install_oxt
 		-rm -rfv output-dir/testdb/graphs
 		-rm -rfv output-dir/testdb_broken_query/graphs
 		PYTHONPATH=$(PYTHONPATH) $(python) -m pytest -v src/e2etest/python
-		diff -r src/e2etest/resources/fixtures/generated_graphs/testdb/graphs output-dir/testdb/graphs
-		diff -r src/e2etest/resources/fixtures/generated_graphs/testdb_broken_query/graphs output-dir/testdb_broken_query/graphs
+		diff  src/e2etest/resources/fixtures/generated_graphs/testdb/graphs/testdb.gv output-dir/testdb/graphs/testdb.gv
+		diff  src/e2etest/resources/fixtures/generated_graphs/testdb_broken_query/graphs/testdb_broken_query.gv output-dir/testdb_broken_query/graphs/testdb_broken_query.gv
 
 
 .ONESHELL:
