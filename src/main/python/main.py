@@ -30,5 +30,12 @@ def run_verify_dialog():
         return
 
 
+def run_start_verify_queries():
+    raise ValueError()
+    run_verify_queries()
+
+
 g_exportedScripts = (run_generate_graphs,
-                     run_verify_queries, run_verify_dialog)
+                     run_verify_queries,
+                     run_verify_dialog,
+                     run_start_verify_queries)

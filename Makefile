@@ -69,6 +69,7 @@ oxt:
 	--ignore-installed --target $(lib)
 	cp src/main/python/main.py $(stage)/python
 	cp -r src/main/python/bd_to_dot $(lib)
+	cp -r src/main/basic/bd_to_dot_ui $(stage)
 	cp -r src/main/resources/oometadata/* $(stage)
 	cp LICENSE $(stage)
 	cd $(stage)
