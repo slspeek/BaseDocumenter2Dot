@@ -24,7 +24,7 @@ def startOffice(file):
     return office_proc
 
 
-def wait_for_connection():
+def get_context():
     localContext = uno.getComponentContext()
 
     # create the UnoUrlResolver
@@ -53,7 +53,7 @@ def wait_for_connection():
 
 
 def smgr():
-    return wait_for_connection().ServiceManager
+    return get_context().ServiceManager
 
 
 def desktop():
