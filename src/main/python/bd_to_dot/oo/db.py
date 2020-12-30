@@ -1,3 +1,4 @@
+""" Facilitates the reading of a BaseDocumenter repository """
 from collections import namedtuple
 import json
 
@@ -8,28 +9,25 @@ Object = namedtuple('Object', ["DATABASEID", "INDEX", "TYPE", "NAME",
 Database = namedtuple('Database', ["ID", "NAME", "SETTINGS"])
 
 
-def TYPE(object):
-    if object.TYPE == 'Table':
-        if 'TableIsView' in object.PROPERTIES.keys() and\
-           object.PROPERTIES['TableIsView']:
+def object_type(obj):
+    """ Refines into two extra database object types """
+    if obj.TYPE == 'Table':
+        if 'TableIsView' in obj.PROPERTIES.keys() and\
+           obj.PROPERTIES['TableIsView']:
             return 'View'
-        else:
-            return object.TYPE
-    else:
-        if object.TYPE == 'Control':
-            if 'ControlType' in object.PROPERTIES.keys() and\
-               object.PROPERTIES['ControlType'] == "SUBFORMCONTROL":
-                return 'SubForm'
-            else:
-                return object.TYPE
-    return object.TYPE
+        return obj.TYPE
+    if obj.TYPE == 'Control':
+        if 'ControlType' in obj.PROPERTIES.keys() and\
+           obj.PROPERTIES['ControlType'] == "SUBFORMCONTROL":
+            return 'SubForm'
+        return obj.TYPE
+    return obj.TYPE
 
 
 def _int_list(value):
     if value == '':
         return []
-    else:
-        return list(map(int, value.split("|")))
+    return list(map(int, value.split("|")))
 
 
 DATABASES_QUERY = """SELECT "ID",
@@ -95,37 +93,38 @@ FROM "OBJECTS"
 """
 
 
-def loadObjects(connection):
+def load_objects(connection):
+    """ Reads OBJECTS table into [Objects]"""
     stmt = connection.createStatement()
-    rs = stmt.executeQuery(OBJECTS_QUERY)
+    result_set = stmt.executeQuery(OBJECTS_QUERY)
     objs = []
-    while rs.next():
-        properties = json.loads(rs.getString(12))
-        o = Object(rs.getInt(1),
-                   rs.getInt(2),
-                   rs.getString(3),
-                   rs.getString(4),
-                   rs.getString(5),
-                   rs.getString(6),
-                   rs.getInt(7),
-                   _int_list(rs.getString(9)),
-                   _int_list(rs.getString(10)),
-                   properties)
-        o = o._replace(TYPE=TYPE(o))
-        objs.append(o)
+    while result_set.next():
+        properties = json.loads(result_set.getString(12))
+        obj = Object(result_set.getInt(1),
+                     result_set.getInt(2),
+                     result_set.getString(3),
+                     result_set.getString(4),
+                     result_set.getString(5),
+                     result_set.getString(6),
+                     result_set.getInt(7),
+                     _int_list(result_set.getString(9)),
+                     _int_list(result_set.getString(10)),
+                     properties)
+        obj = obj._replace(TYPE=object_type(obj))
+        objs.append(obj)
 
     return objs
 
 
-def loadDatabases(connection):
+def load_databases(connection):
+    """ Reads the DATABASE table into memory """
     stmt = connection.createStatement()
-    rs = stmt.executeQuery(DATABASES_QUERY)
+    result_set = stmt.executeQuery(DATABASES_QUERY)
     dbs = []
-    while rs.next():
-        settings = json.loads(rs.getString(10))
-        d = Database(rs.getInt(1),
-                     rs.getString(2),
-                     settings)
-        dbs.append(d)
+    while result_set.next():
+        settings = json.loads(result_set.getString(10))
+        dbs.append(Database(result_set.getInt(1),
+                            result_set.getString(2),
+                            settings))
 
     return dbs

@@ -1,10 +1,12 @@
+""" Provides fixuture for DATABASES table from repository """
 import pickle
 
 from pytest import fixture
 from bd_to_dot_test.dot.resource import FIXTURE_DIR
 
 
-def loadDatabases():
+def load_databases_from_file():
+    """ loads Databases from fixuture """
     with open(FIXTURE_DIR.format('databases.pickle'), 'rb') as file:
         dbs = pickle.load(file)
     return dbs
@@ -12,8 +14,10 @@ def loadDatabases():
 
 @fixture(scope="module")
 def databases():
-    yield loadDatabases()
+    """ Returns a list of Database objects """
+    yield load_databases_from_file()
 
 
-def test_load_databases(databases):
-    assert 2 == len(databases)
+def test_load_databases(databases):  # pylint: disable=redefined-outer-name
+    """ Two test databases """
+    assert len(databases) == 2

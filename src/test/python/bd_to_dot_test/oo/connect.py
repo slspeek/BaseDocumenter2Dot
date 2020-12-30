@@ -1,3 +1,4 @@
+""" LibreOffice starter and connecter test utilities """
 import time
 import logging
 import subprocess
@@ -17,19 +18,21 @@ SOFFICE_CMD = '/opt/libreoffice6.4/program/soffice '\
               ' {}'
 
 
-def startOffice(file):
+def start_office(file):
+    """ Start LibreOffice on `file`. Returns the process """
     args = shlex.split(SOFFICE_CMD.format(file))
     office_proc = subprocess.Popen(args, shell=False)
-    logger.debug("LibreOffice started with {} ".format(file))
+    logger.debug("LibreOffice started with %s ", file)
     return office_proc
 
 
 def get_context():
-    localContext = uno.getComponentContext()
+    """ Retrieves a remote context """
+    local_context = uno.getComponentContext()
 
     # create the UnoUrlResolver
-    resolver = localContext.ServiceManager.createInstanceWithContext(
-        "com.sun.star.bridge.UnoUrlResolver", localContext
+    resolver = local_context.ServiceManager.createInstanceWithContext(
+        "com.sun.star.bridge.UnoUrlResolver", local_context
     )
 
     i = 0
@@ -41,7 +44,7 @@ def get_context():
                 "urp;StarOffice.ComponentContext"
             )
             break
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             i += 1
             logger.debug(
                 "waiting on uno connection for %0.1f seconds", float(i)/10)
@@ -53,13 +56,15 @@ def get_context():
 
 
 def smgr():
+    """ Returns a ServiceManager """
     return get_context().ServiceManager
 
 
 def desktop():
+    """ Returns a Desktop """
     return smgr().createInstance("com.sun.star.frame.Desktop")
 
 
 def datasource():
-    d = desktop()
-    return d.CurrentComponent.CurrentController.DataSource
+    """ Returns the datasource from the active window """
+    return desktop().CurrentComponent.CurrentController.DataSource

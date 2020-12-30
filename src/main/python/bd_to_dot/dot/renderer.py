@@ -1,4 +1,7 @@
+"""" Responsible for graph generation via graphviz lib """
 from graphviz import Digraph
+from bd_to_dot.oo.db import Object
+
 
 TYPE_ATTRS = {
     "Table": {"shape": "cylinder", "fillcolor": "#a7c3eb", "style": "filled"},
@@ -54,25 +57,29 @@ TYPE_HREF = {
 EXCLUDED_TYPES = ["Database", "Field", "Module"]
 
 
-def build_graph(name, dictObjs):
-    gr = GraphRenderer(name, dictObjs, EXCLUDED_TYPES)
-    graph = gr.render_graph()
+def build_graph(name, objs_dict):
+    """ makes Digraph of the database object `objs_dict` """
+    renderer = GraphRenderer(name, objs_dict, EXCLUDED_TYPES)
+    graph = renderer.render_graph()
     return graph
 
 
-def id(obj):
+def html_id(obj: Object):
+    """ returns the value for the id html attribute """
     return "%05.d" % obj.INDEX
 
 
 def href(obj):
+    """ returns the value for a href html attribute """
     file = TYPE_HREF[obj.TYPE]
-    return "../{}.html#{}".format(file, id(obj))
+    return "../{}.html#{}".format(file, html_id(obj))
 
 
-class GraphRenderer(object):
+class GraphRenderer:  # pylint: disable=too-few-public-methods
+    """ fills in a Digraph from `objs_dict` """
 
-    def __init__(self, name, dictObjs, excluded_types):
-        self.dictObjs = dictObjs
+    def __init__(self, name, objs_dict, excluded_types):
+        self.objs_dict = objs_dict
         self._verify_relationships()
         self.excluded_types = excluded_types
         self.name = name
@@ -85,14 +92,13 @@ class GraphRenderer(object):
     def _filter_objs(self):
         self.objs = list(
             filter(lambda x: x.TYPE not in self.excluded_types,
-                   self.dictObjs.values())
+                   self.objs_dict.values())
         )
 
         def relevant_control_filter(obj):
             if obj.TYPE != "Control":
                 return True
-            else:
-                return len(obj.USES) > 0
+            return len(obj.USES) > 0
 
         self.objs = list(
             filter(relevant_control_filter,
@@ -101,32 +107,32 @@ class GraphRenderer(object):
 
     def _related_objs(self):
         res = []
-        for o in self.objs:
-            for u in o.USES:
-                uO = self.dictObjs[u]
-                if uO in self.objs:
-                    res.append((o, uO))
+        for obj in self.objs:
+            for use_ref in obj.USES:
+                use = self.objs_dict[use_ref]
+                if use in self.objs:
+                    res.append((obj, use))
         return res
 
     def _parent_relations(self):
         res = []
         for obj in self.objs:
-            pi = obj.PARENTINDEX
-            if pi in self.dictObjs.keys():
-                pObj = self.dictObjs[obj.PARENTINDEX]
-                if pObj in self.objs:
-                    res.append((obj, pObj))
+            parent_index = obj.PARENTINDEX
+            if parent_index in self.objs_dict.keys():
+                parent_obj = self.objs_dict[parent_index]
+                if parent_obj in self.objs:
+                    res.append((obj, parent_obj))
         return res
 
     def _verify_relationships(self):
-        for key in self.dictObjs.keys():
-            o = self.dictObjs[key]
-            for u in o.USES:
-                usedObj = self.dictObjs[u]
-                assert key in usedObj.USEDBY
-            for u in o.USEDBY:
-                usedByObj = self.dictObjs[u]
-                assert key in usedByObj.USES
+        for key in self.objs_dict.keys():
+            obj = self.objs_dict[key]
+            for used_ref in obj.USES:
+                used_obj = self.objs_dict[used_ref]
+                assert key in used_obj.USEDBY
+            for used_by_ref in obj.USEDBY:
+                used_by_obj = self.objs_dict[used_by_ref]
+                assert key in used_by_obj.USES
 
     def _render_object(self, obj):
         if obj.TYPE == "Control" and "Caption" in obj.PROPERTIES:
@@ -137,40 +143,37 @@ class GraphRenderer(object):
                         label=label,
                         tooltip="{} ({})".format(obj.NAME, obj.TYPE),
                         href=href(obj),
-                        id=id(obj),
+                        id=html_id(obj),
                         _attributes=TYPE_ATTRS[obj.TYPE])
 
-    def _render_parent_relation(self, startObj, endObj):
-        types = (startObj.TYPE, endObj.TYPE)
-        attrs = {}
-        if types in RELATION_ATTR:
-            attrs = RELATION_ATTR[types]
+    def _render_parent_relation(self, start_obj, end_obj):
+        types = (start_obj.TYPE, end_obj.TYPE)
+        attrs = RELATION_ATTR.get(types, {})
         attrs["edgetooltip"] = "{} is child of {}"\
-            .format(startObj.NAME, endObj.NAME)
+            .format(start_obj.NAME, end_obj.NAME)
         attrs["style"] = "dashed"
         attrs["color"] = "#ffcc99"
         attrs["arrowhead"] = "none"
-        self.graph.edge(str(startObj.INDEX),
-                        str(endObj.INDEX),
+        self.graph.edge(str(start_obj.INDEX),
+                        str(end_obj.INDEX),
                         _attributes=attrs)
 
-    def _render_relation(self, startObj, endObj):
-        types = (startObj.TYPE, endObj.TYPE)
-        attrs = {}
-        if types in RELATION_ATTR:
-            attrs = RELATION_ATTR[types]
-        attrs["edgetooltip"] = "{} -> {}".format(startObj.NAME, endObj.NAME)
-        self.graph.edge(str(startObj.INDEX),
-                        str(endObj.INDEX),
+    def _render_relation(self, start_obj, end_obj):
+        types = (start_obj.TYPE, end_obj.TYPE)
+        attrs = RELATION_ATTR.get(types, {})
+        attrs["edgetooltip"] = "{} -> {}".format(start_obj.NAME, end_obj.NAME)
+        self.graph.edge(str(start_obj.INDEX),
+                        str(end_obj.INDEX),
                         _attributes=attrs)
 
     def render_graph(self):
+        """ Draw the objects and relationships """
         relations = self._related_objs()
         parent_rel = self._parent_relations()
         for obj in self.objs:
             self._render_object(obj)
-        for (startObj, endObj) in relations:
-            self._render_relation(startObj, endObj)
-        for (startObj, endObj) in parent_rel:
-            self._render_parent_relation(startObj, endObj)
+        for (start_obj, end_obj) in relations:
+            self._render_relation(start_obj, end_obj)
+        for (start_obj, end_obj) in parent_rel:
+            self._render_parent_relation(start_obj, end_obj)
         return self.graph

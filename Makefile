@@ -7,7 +7,7 @@ stage=$(dist)/bd2dot_oxt/
 lib=$(stage)/python/pythonpath
 build=$(target)/build
 test_output=$(build)/test-output
-PYTHONPATH=./src/test/python:./src/main/python:./vendor:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/
+PYTHONPATH=./src/test/python:./src/main/python:$(HOME)/.pyenv/versions/3.7.6/envs/bd2dot/lib/python3.7/site-packages:/home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/
 
 all: clean info check itest unit oxt install_oxt e2etest
 
@@ -49,7 +49,7 @@ format:
 
 .ONESHELL:
 check: format
-	flake8 src && pycodestyle src
+	PYTHONPATH=$(PYTHONPATH) $(python) -m pylint src
 
 .ONESHELL:
 view: prepare

@@ -1,10 +1,11 @@
+""" Helper to call a macro in LibreOffice """
 
 
-def invokeMacro(ctx, macro_uri):
-    sm = ctx.ServiceManager
-    mspf = sm.createInstanceWithContext(
+def invoke_macro(ctx, macro_uri):
+    """ Invokes macro from `macro_uri` """
+    mspf = ctx.ServiceManager.createInstanceWithContext(
         "com.sun.star.script.provider.MasterScriptProviderFactory",
         ctx)
-    scriptPro = mspf.createScriptProvider("")
-    xScript = scriptPro.getScript(macro_uri)
-    return xScript.invoke((), (), ())
+    script_provider = mspf.createScriptProvider("")
+    macro = script_provider.getScript(macro_uri)
+    return macro.invoke((), (), ())
